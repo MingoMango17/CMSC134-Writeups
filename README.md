@@ -2,11 +2,11 @@
 
 ## Writeups
 
-- [Writeup 0: Human Factors in Computer Security](./Writeup%200/writeup.md)
+- [Writeup 0: Human Factors in Computer Security](./Writeup%200/writeup.md) [2024-02-09]
 
 ## Format
 
-Please follow this format below for writing new writeups
+Please follow this format below for writing new writeups:
 
 ```md
 ---
