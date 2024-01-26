@@ -4,12 +4,14 @@ date: 2024-02-09
 author:
   - "0x42697262"
   - Jinx
-  -
+  - Orochi
 ---
 
 # Human Factors in Computer Security
 
+```
 << DEFINE HUMAN FACTOR HERE or just add something the gives out details >>
+```
 
 ## Identifying the Threat Actor
 
@@ -31,7 +33,7 @@ The action that the user performed allowed "indiscriminate attacks" and these al
 
 ```
 do describe what happens here based on the security principles
-- 2. Consider Human Factor
+- 2. Consider Human Factor (should be the biggest one here in the writeup)
 - 3. Security is economics
 
 end conclusion should assume that the attack has failed. but what if the attack succeeds? proceed to next section
