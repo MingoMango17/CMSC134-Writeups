@@ -15,17 +15,17 @@ author:
 
 Identifying the threat actors[^1] to a certain individual or organization may pose a challenge, however it is easy to guess; it's **you**.
 
-![pika face](./pikaface.png){:.centered}
+![pika face](./pikaface.png)
 
 Okay, no, not literally you but the "user" itself. However, isn't the definition of a threat actor an external entity that poses a threat to an individual or organization? Well, yeah, but consider a situation where the user is guillible to the technology it poses. They do not understand the concept of keeping one's self safe from the internet (internet because they're more likely to face threats there than their local network).
 
 The user figures that it is safe clicking on web URLs and downloading strange executables does not pose much as a threat. These actions introduces risks to the individual or organization. Hence the user is the threat to its self. The risks could be mitigated with proper training and decent knowledge.
 
-![self sabotage](./selfsabotage.png){:.centered}
+![self sabotage](./selfsabotage.png)
 
 The action that the user performed allowed "indiscriminate attacks" and these always happen on the wild, the internet. A notable destructive instance of such attacks is the WannaCry ransomware, which occurred on May 12, 2017[^2].
 
-![WannaCry Ransomware](./wannacry.png){:.centered}
+![WannaCry Ransomware](./wannacry.png)
 
 ## Attack in Progress
 
