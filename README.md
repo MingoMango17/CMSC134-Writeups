@@ -2,7 +2,7 @@
 
 ## Writeups
 
-- [Writeup 0: Human Factors in Computer Security](Writeup 0/writeup.md)
+- [Writeup 0: Human Factors in Computer Security](./Writeup%200/writeup.md)
 
 ## Format
 
