@@ -2,7 +2,7 @@ Read these
 
 # TODO
 
-- [ ] https://zagrebsecurityforum.com/Portals/0/SecurityScienceJournal/SSJ%202_2_4%20HUMAN%20FACTORS%20IN%20CYBERSECURITY%20RISKS%20AND%20IMPACTS.PDF
+- [x] https://zagrebsecurityforum.com/Portals/0/SecurityScienceJournal/SSJ%202_2_4%20HUMAN%20FACTORS%20IN%20CYBERSECURITY%20RISKS%20AND%20IMPACTS.PDF
 - [ ] https://www.researchgate.net/publication/221330044_Human_Factors_In_Computer_Security
 - [ ] https://arxiv.org/pdf/2103.13287.pdf
 - [ ] https://www.crowe.com/insights/the-human-factor-in-cybersecurity
