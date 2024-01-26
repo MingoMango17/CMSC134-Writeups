@@ -2,7 +2,7 @@
 title: Human Factors in Computer Security
 date: 2024-02-09
 author:
-  - 0x42697262
+  - "0x42697262"
   - Jinx
   -
 ---
