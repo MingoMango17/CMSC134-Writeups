@@ -65,7 +65,16 @@ end conclusion should assume that the attack has failed. but what if the attack 
 
 The main idea in secure computing systems must be usable for ordinary people, hence the system must be designed to consider humans as a factor[^4].
 A security system that is inconvenient for users to use or handle allows them to circumnavigate the implemented security protocols in order to make workflow _less inconvenient_.
-Imagine that you have a personal computer that does not implement any user management.
+Imagine a user with a personal computer not implementing any user management. It's default behavior in interacting to the system is fully privileged, meaning the user have absolute power.
+When the user deletes a system files, the system would not stop them.
+This is the behavior that a user have experienced or habitualized for a long time.
+Putting this certain user to a controlled environment like a work computer where a decent security protocols are implemented, this would provide inconvenience to the user.
+An example of this would be requiring user password every time a privileged action is triggered, executing applications that requires system modification.
+On this scenario, a user would simply want to disable such security protocol allowing anything to acquire privileged execution (like a root or admin access) when requested.
+This would be an issue in security when strict protocols must be complied.
+
+This is one of the human factors to consider in designing the security system.
+Even if the user were to accept inconvenience, they are still vulnerable, but not limited to, social engineering attacks, carelessness, trust, awareness, knowledge, and other sociological or psychological actions.
 
 ## You Have Been Pwned
 
