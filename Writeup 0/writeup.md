@@ -65,7 +65,16 @@ end conclusion should assume that the attack has failed. but what if the attack 
 
 The main idea in secure computing systems must be usable for ordinary people, hence the system must be designed to consider humans as a factor[^4].
 A security system that is inconvenient for users to use or handle allows them to circumnavigate the implemented security protocols in order to make workflow _less inconvenient_.
-Imagine that you have a personal computer that does not implement any user management.
+Imagine a user with a personal computer not implementing any user management. It's default behavior in interacting to the system is fully privileged, meaning the user have absolute power.
+When the user deletes a system files, the system would not stop them.
+This is the behavior that a user have experienced or habitualized for a long time.
+Putting this certain user to a controlled environment like a work computer where a decent security protocols are implemented, this would provide inconvenience to the user.
+An example of this would be requiring user password every time a privileged action is triggered, executing applications that requires system modification.
+On this scenario, a user would simply want to disable such security protocol allowing anything to acquire privileged execution (like a root or admin access) when requested.
+This would be an issue in security when strict protocols must be complied.
+
+This is one of the human factors to consider in designing the security system.
+Even if the user were to accept inconvenience, they are still vulnerable, but not limited to, social engineering attacks, carelessness, trust, awareness, knowledge, and other sociological or psychological actions.
 
 ## You Have Been Pwned
 
@@ -99,14 +108,18 @@ here
 
 ## IT'S JOEVER. JOEWARI DA.
 
+![Can you trust me?](./processor.jpg)
+
 **CAN YOU TRUST YOUR COMPILER?**
 
-```
-check out
-https://www.cs.cmu.edu/~rdriley/487/papers/Thompson_1984_ReflectionsonTrustingTrust.pdf
-
-basically, can you trust your compiler won't include malware to your compiled code? can you trust the compiler of the compiler that it won't contain malicious code? can you trust your processor that it does not contain malicious code?
-```
+The irony of this all is that it would be impossible to fully trust a system even if it contains \*Trusted Computing Base\*\* for all of its operations.
+There is no way to confirm that your compiler can be trusted[^5].
+No one is stopping malicious actors (it could be the developer or manufacturer) attaching malicious instruction set to your compiled binary.
+There is no way to confirm the compiler that you created yourself can be trusted because the processor cannot be verified to be trusted.
+There is no way to verify that every microcomponents or hardware in your computing device can be trusted.
+All of these can be solved if you developed your own hardware and software tools.
+Everything is placed on trust.
+Trust that the computer would not operate outside of its expectations.
 
 ## References
 
@@ -114,3 +127,4 @@ basically, can you trust your compiler won't include malware to your compiled co
 [^2]: https://www.ibm.com/topics/threat-actor
 [^3]: https://www.cloudflare.com/learning/security/ransomware/wannacry-ransomware/
 [^4]: https://textbook.cs161.org/principles/principles.html#12-consider-human-factors
+[^5]: https://www.cs.cmu.edu/~rdriley/487/papers/Thompson_1984_ReflectionsonTrustingTrust.pdf
