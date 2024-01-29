@@ -30,3 +30,11 @@ The `date` field should be the deadline of submission.
 ### Writing Convention
 
 - Sentences must be placed on a new line.
+
+Example:
+
+```md
+This a sentence.
+This is another sentence, of course.
+The last sentence in the paragraph.
+```
