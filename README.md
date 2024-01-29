@@ -12,6 +12,10 @@ Please follow this format below for writing new writeups:
 ---
 title: <title>
 date: YYYY-MM-DD
+author:
+  - author1
+  - author2
+  - author3
 ---
 
 # <title>
