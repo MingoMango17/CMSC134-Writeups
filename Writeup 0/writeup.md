@@ -9,7 +9,16 @@ author:
 
 # Human Factors in Computer Security
 
-Humans (or the human element) are the weakest link when it comes to security[^1]. Talk about how their day goes, empathize with them, share some of your experiences that relates with theirs, and then you get to achieve their trust by validating their feelings. That's not exactly how it works in computer security however there are some similarities. Take for example old websites that uses secret questions to recover your password or account. What's the name of your pet? Who's your favorite teacher? Which school did you study? And the list goes on. These personal information can all be taken online or by simply talking to the _human_. This is what they usually consider as a Social Engineering attack. Computer Security does not only contain software implementations and hardware designs, but also the human using the device. However, human mind is difficult to comprehend as it involves a lot of phenomena. Hence, the triggers and cause-effect events are heavily focused.
+Humans (or the human element) are the weakest link when it comes to security[^1].
+Talk about how their day goes, empathize with them, share some of your experiences that relates with theirs, and then you get to achieve their trust by validating their feelings.
+That's not exactly how it works in computer security however there are some similarities.
+Take for example old websites that uses secret questions to recover your password or account.
+What's the name of your pet? Who's your favorite teacher? Which school did you study? And the list goes on.
+These personal information can all be taken online or by simply talking to the _human_.
+This is what they usually consider as a Social Engineering attack.
+Computer Security does not only contain software implementations and hardware designs, but also the human using the device.
+However, human mind is difficult to comprehend as it involves a lot of phenomena.
+Hence, the triggers and cause-effect events are heavily focused.
 
 ## Identifying the Threat Actor
 
@@ -17,22 +26,29 @@ Identifying the threat actors[^2] to a certain individual or organization may po
 
 ![pika face](./pikaface.png)
 
-Okay, no, not literally you but the "user" itself. However, isn't the definition of a threat actor an external entity that poses a threat to an individual or organization? Well, yeah, but consider a situation where the user is guillible to the technology it possess. They do not understand the concept of keeping one's self safe from the internet (internet because they're more likely to face threats there than their local network).
+Okay, no, not literally you but the "user" itself.
+However, isn't the definition of a threat actor an external entity that poses a threat to an individual or organization? Well, yeah, but consider a situation where the user is guillible to the technology it possess.
+They do not understand the concept of keeping one's self safe from the internet (internet because they're more likely to face threats there than their local network).
 
-The user figures that it is safe clicking on web URLs and downloading strange executables does not pose much as a threat. These actions introduces risks to the individual or organization. Hence the user is the threat to its self. The risks could be mitigated with proper training and decent knowledge.
+The user figures that it is safe clicking on web URLs and downloading strange executables does not pose much as a threat.
+These actions introduces risks to the individual or organization.
+Hence the user is the threat to its self.
+The risks could be mitigated with proper training and decent knowledge.
 
 ![self sabotage](./selfsabotage.png)
 
-The action that the user performed allowed "indiscriminate attacks" and these always happen on the wild, the internet. A notable destructive instance of such attacks is the WannaCry ransomware, which occurred on May 12, 2017[^3].
+The action that the user performed allowed "indiscriminate attacks" and these always happen on the wild, the internet.
+A notable destructive instance of such attacks is the WannaCry ransomware, which occurred on May 12, 2017[^3].
 
 ![WannaCry Ransomware](./wannacry.png)
 
-On the event that there are certain threat actors targeting an individual or organization, they would do everything they are capable of in order to execute an attack successfully. Even with the most secure software, completely locked down devices, and proper authority and control, it would still be possible to successfully launch an attack, albeit small a chance.
+On the event that there are certain threat actors targeting an individual or organization, they would do everything they are capable of in order to execute an attack successfully.
+Even with the most secure software, completely locked down devices, and proper authority and control, it would still be possible to successfully launch an attack, albeit small a chance.
 
-## Attack in Progress
+## Human Factors
 
 ```
-suggest a better title lol, Human Factor? hmmm Factoring Humans! HAH! just kidding...
+what are the human factors? how does it affect security? why do they exists? when does it occur?
 do describe what happens here based on the security principles
 - 2. Consider Human Factor (should be the biggest one here in the writeup)
     - mention about:
@@ -46,6 +62,10 @@ do describe what happens here based on the security principles
 
 end conclusion should assume that the attack has failed. but what if the attack succeeds? proceed to next section
 ```
+
+The main idea in secure computing systems must be usable for ordinary people, hence the system must be designed to consider humans as a factor[^4].
+A security system that is inconvenient for users to use or handle allows them to circumnavigate the implemented security protocols in order to make workflow _less inconvenient_.
+Imagine that you have a personal computer that does not implement any user management.
 
 ## You Have Been Pwned
 
@@ -93,3 +113,4 @@ basically, can you trust your compiler won't include malware to your compiled co
 [^1]: https://www.kuppingercole.com/events/csls2022/blog/human-factor-in-cybersecurity-the-weakest-link
 [^2]: https://www.ibm.com/topics/threat-actor
 [^3]: https://www.cloudflare.com/learning/security/ransomware/wannacry-ransomware/
+[^4]: https://textbook.cs161.org/principles/principles.html#12-consider-human-factors

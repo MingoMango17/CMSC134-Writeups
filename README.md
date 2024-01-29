@@ -26,3 +26,7 @@ author:
 The `date` field should be the deadline of submission.
 
 `References` should be written in [footnotes](https://github.blog/changelog/2021-09-30-footnotes-now-supported-in-markdown-fields/) if possible.
+
+### Writing Convention
+
+- Sentences must be placed on a new line.
