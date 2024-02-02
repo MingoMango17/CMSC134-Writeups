@@ -76,13 +76,25 @@ This would be an issue in security when strict protocols must be complied.
 This is one of the human factors to consider in designing the security system.
 Even if the user were to accept inconvenience, they are still vulnerable, but not limited to, social engineering attacks, carelessness, trust, awareness, knowledge, and other sociological or psychological actions.
 
-## You Have Been Pwned
+### You Have Been Pwned
 
 ```
 *play all your base are belong to us* jk
 
 maybe mention that cia triad has been broken
 ```
+
+### Negligence Spells Disaster
+
+When talking about human factors, we cannot forget about the capabilities of humans to find convenience in everything they do.  Be it booking a ride to go to another location instead of commuting, or buying kitchen appliances to help in preparing ingredients when a knife is just enough to do the work, humans have the habit to just find ways to make things easier.
+
+This behaviour carries over in how users deal with the information and/or credentials they have online. A scene that perfectly highlights this type of behaviour can be seen in the movie "Ready Player One", where the main character was able to log in the antagonist's acocunt using the password they left in plain sight beside their device.
+
+![Ready Player One Password Scene](./readyplayeronepass.png)
+
+Other examples include allowing passwords to be automatically saved in sites or telling other people sensitive credentials. 
+
+This negligence is easily exploited by others, especially those with access to the device the user usually uses. 
 
 ## suggestions/mitigations/etc
 
