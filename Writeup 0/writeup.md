@@ -63,7 +63,7 @@ Even if the user were to accept inconvenience, they are still vulnerable, but no
 
 ### Social Engineering
 
-[Cats are master social engineers](./cat.jpg)
+![Cats are master social engineers](./cat.jpg)
 
 Individuals can be manipulated to divulge sensitive information.
 The more the threat actors interact with the user, the more they are able to gather information about them.
@@ -128,7 +128,7 @@ This makes your insecurity less of a concern.
 
 ## You Have Been Pwned
 
-[All Your Base Are Belong To Us](./base.png)
+![All Your Base Are Belong To Us](./base.png)
 
 The user or organization has fallen victim to cyber attacks, now what?
 Typically you would want a damage control and then boot off the threat actor.
