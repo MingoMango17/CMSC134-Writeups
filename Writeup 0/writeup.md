@@ -181,13 +181,17 @@ Thus, they buy from hardware manufacturers.
 They should be trusted and should only do actions they are expected to.
 If they were to be compromised, then expect that you're as good as compromised as well.
 
-## conclusion
+## Final Thoughts
 
-Despite the technological advancements of software and hardware, the actions and decisions of humans do significantly influence technological security. Throughout this writeup it is evident that human behavior, tendencies, and vulnerabilities is recommended for designing effective security protocols. From social engineering tactics to negligence in handling sensitive information, humans are vulnerable to threats that can compromise the security of computer systems and data.
+Despite the technological advancements of software and hardware, the actions and decisions of humans do significantly influence technological security.
+Throughout this writeup it is evident that human behavior, tendencies, and vulnerabilities is recommended for designing effective security protocols.
+From social engineering tactics to negligence in handling sensitive information, humans are vulnerable to threats that can compromise the security of computer systems and data.
 
-But even with the vulnerability of human’s mistakes and decisions we can still protect them by implementing multi-layered defense mechanisms, limiting user privileges, and adhering to secure development practices for overall security resilience. Prevention, detection, and response strategies should be implemented to effectively combat evolving threats.
+But even with the vulnerability of human’s mistakes and decisions we can still protect them by implementing multi-layered defense mechanisms, limiting user privileges, and adhering to secure development practices for overall security resilience.
+Prevention, detection, and response strategies should be implemented to effectively combat evolving threats.
 
-All in all, while the technological advancements continue to enhance security measures, the human element remains central to the equation. By educating users, implementing robust security measures, and fostering a culture of vigilance we can at least help users in mitigating the risks associated with human factors in computer security.
+All in all, while the technological advancements continue to enhance security measures, the human element remains central to the equation.
+By educating users, implementing robust security measures, and fostering a culture of vigilance we can at least help users in mitigating the risks associated with human factors in computer security.
 
 # Extra
 
