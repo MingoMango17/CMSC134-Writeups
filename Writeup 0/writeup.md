@@ -185,7 +185,7 @@ If they were to be compromised, then expect that you're as good as compromised a
 
 Despite the technological advancements of software and hardware, the actions and decisions of humans do significantly influence technological security. Throughout this writeup it is evident that human behavior, tendencies, and vulnerabilities is recommended for designing effective security protocols. From social engineering tactics to negligence in handling sensitive information, humans are vulnerable to threats that can compromise the security of computer systems and data. 
 But even with the vulnerability of human’s mistakes and decisions we can still protect them by implementing multi-layered defense mechanisms, limiting user privileges, and adhering to secure development practices for overall security resilience. Prevention, detection, and response strategies should be implemented to effectively combat evolving threats.
-All in all, while the technological advancements continue to enhance security measures, the human element remains central to the equation. By educating users, implementing robust security measures, and fostering a culture of vigilance we can at least mitigate the risks associated with human factors in computer security.
+All in all, while the technological advancements continue to enhance security measures, the human element remains central to the equation. By educating users, implementing robust security measures, and fostering a culture of vigilance we can at least help users in mitigating the risks associated with human factors in computer security.
 
 # Extra
 
@@ -195,10 +195,14 @@ All in all, while the technological advancements continue to enhance security me
 
 **CAN YOU TRUST YOUR COMPILER?**
 
-Despite the technological advancements of software and hardware, the actions and decisions of humans do significantly influence technological security. Throughout this writeup it is evident that human behavior, tendencies, and vulnerabilities is recommended for designing effective security protocols. From social engineering tactics to negligence in handling sensitive information, humans are vulnerable to threats that can compromise the security of computer systems and data. 
-But even with the vulnerability of human’s mistakes and decisions we can still protect them by implementing multi-layered defense mechanisms, limiting user privileges, and adhering to secure development practices for overall security resilience. Prevention, detection, and response strategies should be implemented to effectively combat evolving threats.
-All in all, while the technological advancements continue to enhance security measures, the human element remains central to the equation. By educating users, implementing robust security measures, and fostering a culture of vigilance we can at least help users in mitigating the risks associated with human factors in computer security.
-
+The irony of this all is that it would be impossible to fully trust a system even if it contains \*Trusted Computing Base\*\* for all of its operations.
+There is no way to confirm that your compiler can be trusted[^5].
+No one is stopping malicious actors (it could be the developer or manufacturer) attaching malicious instruction set to your compiled binary.
+There is no way to confirm the compiler that you created yourself can be trusted because the processor cannot be verified to be trusted.
+There is no way to verify that every microcomponents or hardware in your computing device can be trusted.
+All of these can be solved if you developed your own hardware and software tools.
+Everything is placed on trust.
+Trust that the computer would not operate outside of its expectations.
 
 ## References
 
