@@ -201,7 +201,7 @@ By educating users, implementing robust security measures, and fostering a cultu
 
 **CAN YOU TRUST YOUR COMPILER?**
 
-The irony of this all is that it would be impossible to fully trust a system even if it contains \*Trusted Computing Base\*\* for all of its operations.
+The irony of this all is that it would be impossible to fully trust a system even if it contains **Trusted Computing Base** for all of its operations.
 There is no way to confirm that your compiler can be trusted[^5].
 No one is stopping malicious actors (it could be the developer or manufacturer) attaching malicious instruction set to your compiled binary.
 There is no way to confirm the compiler that you created yourself can be trusted because the processor cannot be verified to be trusted.
