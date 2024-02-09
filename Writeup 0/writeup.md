@@ -7,6 +7,12 @@ author:
   - Orochi
 ---
 
+Authors:
+
+- "0x42697262"
+- Jinx
+- Orochi
+
 # Human Factors in Computer Security
 
 Humans (or the human element) are the weakest link when it comes to security[^1].
