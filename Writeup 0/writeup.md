@@ -135,7 +135,7 @@ Typically you would want a damage control and then boot off the threat actor.
 But that's simply for another writeup.
 There are mitigations and suggestions in preventing cyber attacks.
 
-### Prevention is Better Than Cure
+## Prevention is Better Than Cure
 
 When preventing attacks ever fails, make sure to ALWAYS detect them otherwise it would be harder to control the damage the threat actors would impact.
 
