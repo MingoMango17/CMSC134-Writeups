@@ -210,7 +210,7 @@ All of these can be solved if you developed your own hardware and software tools
 Everything is placed on trust.
 Trust that the computer would not operate outside of its expectations.
 
-## References
+# References
 
 [^1]: https://www.kuppingercole.com/events/csls2022/blog/human-factor-in-cybersecurity-the-weakest-link
 [^2]: https://www.ibm.com/topics/threat-actor
