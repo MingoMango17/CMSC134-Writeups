@@ -9,7 +9,7 @@ author:
 
 Authors:
 
-- "0x42697262"
+- 0x42697262
 - Jinx
 - Orochi
 
