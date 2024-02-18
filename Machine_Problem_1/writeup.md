@@ -55,6 +55,7 @@ Print the address of the variable `buffer`
 
 ```
 (gdb) print &buffer
+$1 = (char (*)[8]) 0xffffcd18
 ```
 
 Craft the exploit with the shellcode payload and memory address of the `buffer`
