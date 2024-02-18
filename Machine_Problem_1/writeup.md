@@ -410,6 +410,10 @@ Which should successfully terminate the program with desired exit status
 
 ## Conclusion
 
+Stack smashing is an archaic method of binary exploitation that modern computers have protections against it.
+Thanks to Address Space Layout Randomization (ASLR) that modern operating systems are equipped with, it would be very difficult to execute this exploit.
+Nonetheless, this is a fun exercise and we have learned a lot from it.
+
 ---
 
 ## Acknowledgement and References
