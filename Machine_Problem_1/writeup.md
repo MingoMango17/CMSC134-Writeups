@@ -568,7 +568,7 @@ And if this does not work, we can use `gcore` to dump the current memory of a pr
 $ gcore <process id>
 ```
 
-Once the correct return address is acquired, we can now reran the exploit
+Once the correct return address is acquired, we can now rerun the exploit
 
 ```python
 $ python exploit.py | setarch $(uname -m) -R ./vuln
@@ -577,3 +577,7 @@ Linux NuclearChicken 6.7.4-arch1-1 #1 SMP PREEMPT_DYNAMIC Mon, 05 Feb 2024 22:07
 ```
 
 And we got a shell!
+
+To conclude, there is not much difference in doing this method compared to GDB aside from automating the exploitation.
+The difficulty of running the program outside GDB lies on the ASLR (if enabled) and computers having allocating memory differently.
+Aside from that, for the shellcode there is no need to include the NOPs.
