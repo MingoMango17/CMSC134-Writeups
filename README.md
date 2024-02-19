@@ -3,6 +3,7 @@
 ## Writeups
 
 - [Writeup 0: Human Factors in Computer Security](./Writeup%200/writeup.md) [2024-02-09]
+- [Machine Problem 1](./Machine_Problem_1/writeup.md) [2024-02-24]
 
 ## Format
 
