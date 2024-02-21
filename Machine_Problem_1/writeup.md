@@ -595,7 +595,7 @@ birb     1450296 71.4  0.0   2732  1096 pts/9    R+   10:32   5:17 ./vuln
 ```
 
 Here, the process id is `1450296`.
-We then dump the memory of the process after our input back in the program (I used `ABCDEFGH`)
+We then dump the memory of the process after our input back in the program (I used `ABCD`)
 
 ```sh
 $ gcore 1450296
