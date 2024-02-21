@@ -7,6 +7,12 @@ author:
   - Jinx
 ---
 
+Authors:
+
+- 0x42697262
+- Jinx
+- Orochi
+
 # Buffer overflow to exit
 
 ## TL;DR
