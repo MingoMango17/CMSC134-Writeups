@@ -636,7 +636,7 @@ vs
 ```
 
 The second result is more likely to contain the EBP and ESP.
-We will use `0xffffcd48` (which is taken from `0xffffcd38`) as the new return address
+We will use `0xffffcd48` (which is taken from `0xffffcd38` by adding 16 bytes) as the new return address
 
 Replace the EIP in the script with the correct return address, we can now rerun the exploit
 
