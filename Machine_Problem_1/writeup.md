@@ -635,8 +635,8 @@ vs
 ...
 ```
 
-The second result is more likely to contain the EBP and ESP which may be `0x48cdffff` and `0x9a615556`.
-We will use `0x44cdffff` (whose value is `0x00000000`), subtract 4 bytes to point to the return address `0x9a615556` to replace its value.
+The second result is more likely to contain the EBP and ESP.
+We will use `0xffffcd48` (which is taken from `0xffffcd38`) as the new return address
 
 Replace the EIP in the script with the correct return address, we can now rerun the exploit
 
