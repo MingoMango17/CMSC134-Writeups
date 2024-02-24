@@ -426,7 +426,9 @@ Which should successfully terminate the program with desired exit status:
 
 ## Conclusion
 
-Stack smashing is an archaic method of binary exploitation and past computers are vulnerable against this type of exploitation. However, thanks to the  Address Space Layout Randomization (ASLR) that modern operating systems are equipped with, it would be very difficult to execute this exploit in the current times.
+Stack smashing is an archaic method of binary exploitation and past computers are vulnerable against this type of exploitation.
+However, thanks to the Address Space Layout Randomization (ASLR) that modern operating systems are equipped with, it would be very difficult to execute this exploit in the current times.
+Aside from ASLR, the `egg` machine code would not work universally to different computers due to how memory layouts are arranged since not every computers have the same memory size and the same applications ran.
 Nonetheless, this is a fun exercise and we have learned a lot from it.
 
 Solution files can be found here:
