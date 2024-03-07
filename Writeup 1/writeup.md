@@ -24,17 +24,17 @@ The game works like this:
 
 1. The encryptor ($Enc$) will give out a public key to the attacker ($A$) while keeping the private key.
 2. A will then give two same-length messages $m_0$ and $m_1$ to the $Enc$.
-3. $Enc$ will choose a random bit $b \in {0, 1}$ to encrypt both messages.
+3. $Enc$ will choose a random bit $b \in \{0, 1\}$ to encrypt both messages.
 4. $Enc$ will give out $C_0$ to the $A$.
-5. $A$ will guess $\prime b$, and if $\prime b = b$, then $A$ will win.
+5. $A$ will guess $b\prime$, and if $b\prime = b$, then $A$ will win.
 
-Another way of referring to the win conditions of this game is the **_Probability of $A$ winning $-1/2 + \varepsilon$_**, where $\varepsilon$ is a very small number.
+Another way of referring to the win conditions of this game is the **_Probability of_** $A$ **_winning_** $-1/2 + \varepsilon$, where $\varepsilon$ is a very small number.
 This means that an encryption method will be CPA secure if the attacker has a very negliglible advantage in winning the IND-CPA game.
 
 The formal definition of having achieved CPA security is:
 
 $$
-\text{An encryption method is CPA secure if \forall m_0 and m_1 such that \vert m_0 \vert = \vert m_1 \vert \forall A}
+\text{An encryption method is CPA secure if} \forall m_0 \text{and} m_1 \text{such that} \vert m_0 \vert = \vert m_1 \vert \forall A
 $$
 
 : An encryption method is CPA secure if ∀ m<sub>0</sub> and m<sub>1</sub> such that |m<sub>0</sub>| = |m<sub>1</sub>| ∀ A: <center>A<sup>Enc</sup>(Enc(m<sub>0</sub>)) ≈ A<sup>Enc</sup>(Enc(m<sub>1</sub>))
