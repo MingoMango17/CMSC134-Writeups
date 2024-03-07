@@ -34,7 +34,7 @@ This means that an encryption method will be CPA secure if the attacker has a ve
 The formal definition of having achieved CPA security is:
 
 $$
-\text{An encryption method is CPA secure if}\ \forall\ m_0\ \text{and}\ m_1\ \text{such that}\ \vert m_0 \vert\ 😕 \vert m_1 \vert\ \forall\ A
+\text{An encryption method is CPA secure if}\ \forall\ m_0\ \text{and}\ m_1\ \text{such that}\ \vert m_0 \vert\ =\ \vert m_1 \vert\ \forall\ A
 $$
 
 $$
