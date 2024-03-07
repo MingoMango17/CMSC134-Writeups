@@ -28,7 +28,7 @@ The game works like this:
 4. $Enc$ will give out $C_0$ to the $A$.
 5. $A$ will guess $b\prime$, and if $b\prime = b$, then $A$ will win.
 
-Another way of referring to the win conditions of this game is the **_Probability of_** $A$ **_winning_** $\bold{-1/2 + \varepsilon}$, where $\varepsilon$ is a very small number.
+Another way of referring to the win conditions of this game is the **_Probability of_** $A$ **_winning_** $\bf{-1/2 + \varepsilon}$, where $\varepsilon$ is a very small number.
 This means that an encryption method will be CPA secure if the attacker has a very negliglible advantage in winning the IND-CPA game.
 
 The formal definition of having achieved CPA security is:
