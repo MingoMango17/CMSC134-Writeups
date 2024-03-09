@@ -98,4 +98,5 @@ The resulting outcome is then encrypted with the key.
 
 The encrypted ciphertext output will be the ciphertext of the first block, which will then be XORed with the next plaintext block and encrypted with the key.
 
-Unlike ECB mode, each blocks in CBC will have a different
+Unlike ECB mode, each block in CBC will have a different ciphertext, even if the plaintext messages are the same.
+Thus, preventing any leakage of plaintext information.
