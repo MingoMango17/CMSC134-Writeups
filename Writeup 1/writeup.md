@@ -52,7 +52,7 @@ The **Electronic Code Book** or **ECB** is a simple encryption method that incor
 It splits the plaintext into different blocks of the same size, usually 16 bytes.
 Each block is independently encrypted with the encryption key, which results in identical blocks having the same ciphertext after encryption.
 
-![ECB Encryption](./ECB_encrypt.png)
+<center>![ECB Encryption](./ECB_encrypt.png)</center>
 
 Considering the nature of ECB, we can make a "_code book_" of all possible ciphertext of any given key. With this "_code book_", encryption is made possible by looking up the plaintext and choosing the corresponding ciphertext of the given key, thus the method is aptly named.
 
@@ -74,7 +74,7 @@ Meaning that ECB is not IND-CPA secure due to its inability to be indistinguisha
 
 ## IND-CPA Secure Cryptography: Cipher Block Chaining
 
-![Chain Combo](./knowledge.gif)
+<center>![Chain Combo](./knowledge.gif)</center>
 
 An alternative to ECB mode is **Cipher Block Chaining** (CBC) along with the other modes such as OFB, CFB, and CTR.
 
@@ -84,11 +84,18 @@ In CBC mode, each block of plaintext is **XOR**ed with the previous ciphertext b
 This means that the _encryption_ of each block **depends** on the ciphertext of the **previous block**.
 The first block is XORed with an **Initialization Vector** (IV), which is a random block chosen at the beginning of the encryption process.
 
-> Note that the IV does not require to be secret. It is intended to be known.
+> Note that the IV does not require to be secret. It is intended to be known by the sender and receiver.
 
-![CBC Encryption](./CBC_encryption.png)
+<center>![CBC Encryption](./CBC_encryption.png)</center>
 
 Now that we understand how it works, we can proceed to show that CBC mode is IND-CPA secure.
 
 > Let $m_0$ be _"THAT CAT IS MINE"_ and let $m_1$ _"YOUR CAT IS LOST"_ be the chosen plaintexts.
 > Let $c_0$ be the ciphertext of $m_0$ and let $c_1$ be the ciphertext of $m_1$.
+
+A random IV is chosen either randomly or through an algorithm, and then XORed with the plaintext.
+The resulting outcome is then encrypted with the key.
+
+The encrypted ciphertext output will be the ciphertext of the first block, which will then be XORed with the next plaintext block and encrypted with the key.
+
+Unlike ECB mode, each blocks in CBC will have a different
