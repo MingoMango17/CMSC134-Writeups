@@ -5,6 +5,7 @@
 - [Writeup 0: Human Factors in Computer Security](./Writeup%200/writeup.md) [2024-02-09]
 - [Machine Problem 1: Buffer overflow to exit](./Machine_Problem_1/writeup.md) [2024-02-24]
 - [Writeup 1: Discuss IND-CPA Security and the ECB Mode of Block Cipher Operation](./Writeup%201/writeup.md) [2024-03-09]
+- [Machine Problem 2: RSA encryption](./Machine_Problem_2/writeup.md) [2024-04-06]
 
 ## Format
 
