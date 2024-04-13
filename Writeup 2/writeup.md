@@ -22,48 +22,62 @@ Thank you.
 
 # CAPTCHAs
 
-After using the internet for over 14 years, CAPTCHAs can be as annoying as pop-up ads if you don't have a decent adblocker installed.
-CAPTCHAs are not bad, their purpose is to prevent bots from mascarading the website you visit so that you will never experience slow and terrible service.
-However, it gets annoying when you visit a website for the first time.
+Having used the internet for over 14 years, CAPTCHAs can be just as annoying as pop-up ads when you lack a decent adblocker.
+Sure, CAPTCHAs can be annoying, but they actually stop those pesky bots from disguising themselves as real users.
+
+This helps keep websites running smoothly and prevents you from experiencing slow, frustrating service.
+But having to solve them every single time, especially on brand new sites, can be incredibly frustrating.
 
 ## Why it only works on the surface level
 
-CAPTCHAs does not even work.
-If a threat actor is willing enough, they can defeat the CAPTCHA with some effort and financial expenses.
-Here's a real life example, a [simple multiplayer game](https://agar.io) implemented CAPTCHA because cheating through bots has been getting bigger.
-Every once in a while, you have to complete a CAPTCHA test in order to spawn.
-Moneyclip's— err, MiniClip's goal was to prevent bots from overwhelming the game server.
-However that does not work, there are still bots in the game!
-Anyone can simply reuse a valid CAPTCHA cookie to spawn the bots and start messing around.
+CAPTCHAs does not even work (when looking at every possible ways to bypass CAPTCHAs).
 
-Granted, this prevents terrible cheaters from spawning bots but this does not stop the competent ones from evading CAPTCHAs.
-It served its purpose on deterring overall cheaters but at the same time it introduced inconvenience to legit players who truly enjoys the game.
+Sure, CAPTCHAs aren't perfect.
+A determined attacker with enough resources could probably crack them eventually.
 
-Aside from this frustation alone, CAPTCHAs' annoyance does not only limit on games but to certain tasks that users have to access for a brief moment only to be blocked by a traffic-like CAPTCHA test.
-Answering the test within 30 seconds is alright.
-What is not alright is when you have to repeat the test ***again*** because the attester thought that you are a bot and have to redo it again...
-<center>
+Take this simple multiplayer [game](https://agar.io).
+They added CAPTCHAs to fight the growing problem of bots trying ruin the game for everyone.
+
+Every now and then, you get hit with a CAPTCHA test just to spawn into the game.
+Frustrating, right?
+
+Moneyclip's— err, Miniclip's goal was to prevent bots from overwhelming the game server.
+However, that doesn't seem to be working, as there are still bots present in the game.
+
+Anyone can simply reuse a valid CAPTCHA token or response to spawn bots and start causing disruptions.
+People just keeps finding ways to bypass CAPTCHAs.
+
+**Granted, CAPTCHAs stop the super lazy cheaters from using bots, but the competent ones can still figure them out.**
+Bummer, right?
+It helps a bit to keep things fair, but it also makes things annoying for legit players who just wanna have fun.
+
+
+The CAPTCHAs are a real pain, not just in games!
+You try to do something quick online, and bam, you're stuck with one of those traffic light picture things.
+Thirty seconds isn't so bad, but it's still annoying when you just want to get stuff done.
+
+The worst part?
+Having to do that counterproductive CAPTCHA thing **over and over** because apparently you didn't click the right fire hydrants the first time.
+Come on, just let me log in already.
+
+...And then you do it **again**, and **again**, and again.
+It's like wasting your life away clicking on blurry buses for a good two or three minutes before you can finally get on with your day.
+Yay! CAPTCHAs!
+
+**And then there are those delightful moments** where you have to reload the entire page because the CAPTCHA session has expired and your hard-earned answers are no longer considered valid.
 ![Verification Failed](./expired.png)
-</center>
-Then again, and again.
-Wasting at least 1 to 3 minutes of your time.
+Well, buckle up and get ready to **re-enjoy** the CAPTCHA test once again!
+Maybe it's just a matter of honing your skills in identifying blurry storefronts at lightning speed.
+A skill issue.
 
-And then there are moments where you have to reload the page because the session has expired and no longer valid to be submitted...
-Well, have fun and redo the CAPTCHA test again.
-Maybe that is simply a skill issue?
+*What if I am actually a robot?*
 
-What if I am actually a robot?
+*Should I stop poking around `robots.txt`?*
 
-Should I stop poking around `robots.txt`?
+*Or could it be my proxy or VPN is the cause?*
 
-Or could it be my proxy or VPN is the cause?
-
-Nada, it's the captcha.
-
-Google's reCAPTCHA is infuriating as a user.
-So is Cloudflare's hCaptcha.
-
-As a user, CAPTCHAs are inconvenient, an annoyance, and a time wasting technology.
+*Nada, it's the fault of the captcha.*
+It has to be.
 
 ## But muhh server!
 
@@ -79,14 +93,10 @@ But then again, botters can still win and bypass the CAPTCHAs.
 Even someone who has no knowledge about technology can bypass CAPTCHAs.
 
 For example, you can install [buster](https://github.com/dessant/buster) as a browser extension.
-<center>
 ![buster](./buster1.png)
-</center>
 And simply select the icon-button and enjoy bypassing it for free.
 What buster did was to use artificial intelligence to bypass the audio test by using speech-to-text recognition.
-<center>
 ![Audio Bypass](./audio.png)
-</center>
 This attack focused on user accessibility, allowing us to bypass the CAPTCHA test.
 Because not everyone have eyes that can see, thus an audio test is implemented for handicapped individuals.
 
