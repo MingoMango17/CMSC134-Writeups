@@ -13,7 +13,7 @@ Authors:
 - Jinx
 - Orochi
 
-**To prove that you are human, please complete this [assessment](https://www.youtube.com/watch?v=dQw4w9WgXcQ) first.**
+**To prove that you are human, please complete this [assessment](https://www.youtube.com/watch?v=dQw4w9WgXcQ) first.**[^1]
 
 Once done, please proceed to the writeup below. 
 Thank you.
@@ -31,9 +31,10 @@ But having to solve them every single time, especially on brand new sites, can b
 ## Why it only works on the surface level
 
 CAPTCHAs does not even work (when looking at every possible ways to bypass CAPTCHAs).
+Okay, that's a bold statement, certainly they "do work" but with a catch.
 
 Sure, CAPTCHAs aren't perfect.
-A determined attacker with enough resources could probably crack them eventually.
+A determined attacker with enough resources could probably bypass them eventually.
 
 Take this simple multiplayer [game](https://agar.io).
 They added CAPTCHAs to fight the growing problem of bots trying ruin the game for everyone.
@@ -51,7 +52,6 @@ People just keeps finding ways to bypass CAPTCHAs.
 Bummer, right?
 It helps a bit to keep things fair, but it also makes things annoying for legit players who just wanna have fun.
 
-
 The CAPTCHAs are a real pain, not just in games!
 You try to do something quick online, and bam, you're stuck with one of those traffic light picture things.
 Thirty seconds isn't so bad, but it's still annoying when you just want to get stuff done.
@@ -68,9 +68,9 @@ Yay! CAPTCHAs!
 
 ![Verification Failed](./expired.png)
 
-Well, buckle up and get ready to **re-enjoy** the CAPTCHA test once again!
-Maybe it's just a matter of honing your skills in identifying blurry storefronts at lightning speed.
-Definitely a skill issue.
+Well, buckle up and get ready to **re-enjoy** the CAPTCHA joy-ride once again!
+Maybe it's just a matter of honing your "skills" in identifying blurry storefronts at lightning speed.
+Definitely a skill issue if you can't.
 
 *What if I am actually a robot?*
 
@@ -81,6 +81,19 @@ Definitely a skill issue.
 *Nada, it's the fault of the captcha.*
 It has to be.
 
+Just why annoy your users?
+I meant the legit users.
+
+Google, Facebook, Twitter, PopcornHub were able to do it without CAPTCHAs?
+But not on certain websites that's poorly maintained.
+
+Ah, yeah, it's because we've already sold our data to the internet conglomerates that they know well enough we're not bots.
+Unlike websites that respects your privacy.
+
+CAPTCHAs are only good enough to stop cheap tricks and whatnots.
+A surface level of security.
+Something something security is economics something.
+
 ## But muhh server!
 
 A rumor has been circulating that half of the internet's users might actually be robots.
@@ -90,11 +103,12 @@ Okay, maybe it's [true](https://www.imperva.com/resources/resource-library/repor
 From a developer's perspective, CAPTCHAs serve as an effective deterrent against brute-force attacks on websites, while also thwarting spammers and bots.
 This simple yet powerful tool stands as a frontline defense against malicious activity in the digital realm.
 
-CAPTCHAs do the job for smaller web servers and those online shops that aren't equipped to handle a barrage of traffic.
+CAPTCHAs do the job for smaller web servers and those, but not limited to, online shops that aren't equipped to handle a barrage of traffic.
 However, even determined botters can still slide past them.
 And believe it or not, even the least tech-savvy folks can sometimes bypass CAPTCHAs.
 
 For example, you can install [buster](https://github.com/dessant/buster) as a browser extension.
+*Note that there are other free and open-source solutions as well.*
 
 ![buster](./buster1.png)
 
@@ -107,25 +121,33 @@ What buster did was use artificial intelligence to bypass the audio test by usin
 
 This attack was pretty clever.
 It exploited the accessibility features built into CAPTCHAs.
-Those audio tests they have for handicapped people.
-Well, that's one way of bypassing the whole CAPTCHA test by focusing on that audio test.
+
+Those audio tests they have for handicapped people?
+Well, that's one way of bypassing the whole CAPTCHA test by focusing on it.
 
 Similarly, there is a method for Cloudflare's hCaptcha.
 It's not a bypass since Cloudflare is the one who made them but at least the test is no longer an annoyance.
 It's called [Privacy Pass](https://blog.cloudflare.com/privacy-pass-standard).
 
-However, there is method that's guaranteed to always work.
+It's sort of like an attester that analyzes your browsing behaviour whether you're a bot or not.
+I know I am not.
+
+However, these method *does not work* most of the time for dedicated people that wants to overwhelm a server (maybe DDoS or spams?).
+Audio verification won't work when CAPTCHAs can just analyze your browsing behavior.
+
+Hence why there is method that's guaranteed to always work.
 And that is by hiring digital slaves for a cheap price.
 This is accomplished by letting hundreds of slav- I mean paid workers or "freelancers" to solve the CAPTCHA test for you.
 
-It works too well even on Cloudflare's hCaptcha and not just on Google's reCAPTCHA.
+This method works too well even on Cloudflare's hCaptcha and not just on Google's reCAPTCHA.
 It would even work on other CAPTCHAs as well.
+
 If you have seen job postings that mentions _Work passively anytime!_, _Earn money by typing!_, or _Easy money in X hours!_ (non-verbatim), that is what those services that provides mitigations to CAPTCHAs.
 By offering a paid service, they do the work for you.
 
-On the other hand, Phishing websites would have issues with bots, 100% guaranteed.
+For certain "developers", phishing websites would have issues with bots, 100% guaranteed.
 All they could do is block a certain IP address.
-Yet, if they implement CAPTCHA on their server, their automation tool to send usernames and passwords would be useless.
+Yet, if they implement CAPTCHA on their server, their automation tool to send usernames and passwords would be useless, maybe.
 
 It is quite funny to see phishing sites gets blasted with random username and passwords.
 They deserve it well.
@@ -137,6 +159,7 @@ But we still hate them.
 Since there are now more bots than humans, CAPTCHA is a requirement.
 
 *So, are CAPTCHAs worth it?*
+
 Eh, it really depends on which point of view we are looking at.
 If majority uses CAPTCHAs to deter bots, spammers, and bruteforce attacks then they are worth it as the owner of a service.
 But as a user?
@@ -144,17 +167,20 @@ It's an annoyance and sometimes may not be worth it.
 For us, it's not worth it.
 
 *Is it more trouble than it is worth?*
+
 As a developer, no.
 As a user, yes.
-But over time, users would just accept the fact that CAPTCHAs are part of the internet and becomes ingrained with them.
+But over time, users would just accept the fact that CAPTCHAs are part of the internet and becomes a part of them.
 Making the pain a part of browsing the internet.
 I am a user and unfortunately CAPTCHAs has grown on me.
 
 ---
 
 Basically, CAPTCHAs are annoying but it's like a requirement on the internet.
-Just like having an ad blocker is a requirement to surf the web (UBlock Origin ftw).
+Just like having an ad blocker is a requirement to surf the web ([UBlock Origin](https://github.com/gorhill/uBlock) ftw).
 
-We have no choice but to cope with CAPTCHAs because malicious people can't stop being malicious.
-However, we have the freedom to use the website or just stop accessing it.
+We have no choice but to cope with CAPTCHAs because malicious people can't stop being... *malicious*.
+But we do have the freedom to use the website or just stop accessing it.
 Yet that's still not considered having a choice...
+
+[^1]: If this takes you less than one minute to read, you're a bot.
