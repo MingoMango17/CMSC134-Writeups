@@ -65,10 +65,12 @@ It's like wasting your life away clicking on blurry buses for a good two or thre
 Yay! CAPTCHAs!
 
 **And then there are those delightful moments** where you have to reload the entire page because the CAPTCHA session has expired and your hard-earned answers are no longer considered valid.
+
 ![Verification Failed](./expired.png)
+
 Well, buckle up and get ready to **re-enjoy** the CAPTCHA test once again!
 Maybe it's just a matter of honing your skills in identifying blurry storefronts at lightning speed.
-A skill issue.
+Definitely a skill issue.
 
 *What if I am actually a robot?*
 
@@ -81,57 +83,78 @@ It has to be.
 
 ## But muhh server!
 
-Rumor goes around that half of the users on the internet are actually robots.
-Can't deny nor confirm.
+A rumor has been circulating that half of the internet's users might actually be robots.
+There's no way to definitively confirm or deny this claim at this point.
+Okay, maybe it's [true](https://www.imperva.com/resources/resource-library/reports/2023-imperva-bad-bot-report/).
 
-In the point of view of developers, CAPTCHAs are an effective way to prevent bruteforce attacks on the website.
-As well as spammers and botters.
-It is a simple tool that can prevent attacks in the wild.
+From a developer's perspective, CAPTCHAs serve as an effective deterrent against brute-force attacks on websites, while also thwarting spammers and bots.
+This simple yet powerful tool stands as a frontline defense against malicious activity in the digital realm.
 
-It works well for small web servers that cannot handle a lot of traffic or online stores that are vulnerable to bots.
-But then again, botters can still win and bypass the CAPTCHAs.
-Even someone who has no knowledge about technology can bypass CAPTCHAs.
+CAPTCHAs do the job for smaller web servers and those online shops that aren't equipped to handle a barrage of traffic.
+However, even determined botters can still slide past them.
+And believe it or not, even the least tech-savvy folks can sometimes bypass CAPTCHAs.
 
 For example, you can install [buster](https://github.com/dessant/buster) as a browser extension.
-![buster](./buster1.png)
-And simply select the icon-button and enjoy bypassing it for free.
-What buster did was to use artificial intelligence to bypass the audio test by using speech-to-text recognition.
-![Audio Bypass](./audio.png)
-This attack focused on user accessibility, allowing us to bypass the CAPTCHA test.
-Because not everyone have eyes that can see, thus an audio test is implemented for handicapped individuals.
 
-Well, this is inefficient if you wanted to create a bot that can overwhelm a server.
-But the same methodology can be applied to bypass Google's reCAPTCHA (bypassing Cloudflare's hCaptcha would require [Privacy Pass](https://blog.cloudflare.com/privacy-pass-standard) provided by Cloudflare) depending on the resources available.
-However, that is still quite inefficient.
-The most effective way to bypass CAPTCHAs is to pay people around the world to solve the CAPTCHAs for you.
-If you have seen job postings that mentions _Work passively anytime!_, _Only typing!_, or _Earn $$$ within X hours!_ (non-verbatim), then that is what CAPTCHA solver services thus.
-They offer a paid plan for you to buy and then use it to bypass CAPTCHA tests.
+![buster](./buster1.png)
+
+Then, select buster's icon to bypass Google's reCAPTCHA.
+Easy, right?
+
+What buster did was use artificial intelligence to bypass the audio test by using speech-to-text recognition.
+
+![Audio Bypass](./audio.png)
+
+This attack was pretty clever.
+It exploited the accessibility features built into CAPTCHAs.
+Those audio tests they have for handicapped people.
+Well, that's one way of bypassing the whole CAPTCHA test by focusing on that audio test.
+
+Similarly, there is a method for Cloudflare's hCaptcha.
+It's not a bypass since Cloudflare is the one who made them but at least the test is no longer an annoyance.
+It's called [Privacy Pass](https://blog.cloudflare.com/privacy-pass-standard).
+
+However, there is method that's guaranteed to always work.
+And that is by hiring digital slaves for a cheap price.
+This is accomplished by letting hundreds of slav- I mean paid workers or "freelancers" to solve the CAPTCHA test for you.
+
+It works too well even on Cloudflare's hCaptcha and not just on Google's reCAPTCHA.
+It would even work on other CAPTCHAs as well.
+If you have seen job postings that mentions _Work passively anytime!_, _Earn money by typing!_, or _Easy money in X hours!_ (non-verbatim), that is what those services that provides mitigations to CAPTCHAs.
+By offering a paid service, they do the work for you.
+
+On the other hand, Phishing websites would have issues with bots, 100% guaranteed.
+All they could do is block a certain IP address.
+Yet, if they implement CAPTCHA on their server, their automation tool to send usernames and passwords would be useless.
+
+It is quite funny to see phishing sites gets blasted with random username and passwords.
+They deserve it well.
 
 ## This writeup is definitely not written by a bot
 
+Okay, so there are good and there bad for CAPTCHAs.
+But we still hate them.
+Since there are now more bots than humans, CAPTCHA is a requirement.
+
 *So, are CAPTCHAs worth it?*
 Eh, it really depends on which point of view we are looking at.
-If majority uses CAPTCHAs to deter bots, spammers, and bruteforce attacks then they are worth it.
-
-*Do I think they work?*
-Yes, they work but not 100%.
-CAPTCHAs are an extra layer to security to web servers.
-It is not a magic bullet that stops all bots.
-If it were, then that server simply does not accept any request then.
-It wouldn't be called a server at this point.
+If majority uses CAPTCHAs to deter bots, spammers, and bruteforce attacks then they are worth it as the owner of a service.
+But as a user?
+It's an annoyance and sometimes may not be worth it.
+For us, it's not worth it.
 
 *Is it more trouble than it is worth?*
 As a developer, no.
 As a user, yes.
 But over time, users would just accept the fact that CAPTCHAs are part of the internet and becomes ingrained with them.
 Making the pain a part of browsing the internet.
+I am a user and unfortunately CAPTCHAs has grown on me.
 
+---
 
+Basically, CAPTCHAs are annoying but it's like a requirement on the internet.
+Just like having an ad blocker is a requirement to surf the web (UBlock Origin ftw).
 
-## What's the alternative then?
-
-Attesters.
-Not [this](https://github.com/explainers-by-googlers/Web-Environment-Integrity/issues/28) attester.
-That's simply terrible and breaks the internet due to browser monopoly.
-
-Okay, maybe not attesters but surely CAPTCHAs that checks your digital fingerprints *might* be a good way to validate your existence is either a human or a robot.
+We have no choice but to cope with CAPTCHAs because malicious people can't stop being malicious.
+However, we have the freedom to use the website or just stop accessing it.
+Yet that's still not considered having a choice...
