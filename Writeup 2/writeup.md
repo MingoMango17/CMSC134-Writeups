@@ -23,30 +23,28 @@ Thank you.
 # CAPTCHAs
 
 Having used the internet for over 14 years, CAPTCHAs can be just as annoying as pop-up ads when you lack a decent adblocker.
-Sure, CAPTCHAs can be annoying, but they actually stop those pesky bots from disguising themselves as real users.
+Sure, CAPTCHAs are an annoyance, but they actually stop those pesky bots from disguising themselves as real users.
 
-This helps keep websites running smoothly and prevents you from experiencing slow, frustrating service.
-But having to solve them every single time, especially on brand new sites, can be incredibly frustrating.
+This helps keep websites running smoothly and prevents you from experiencing slow and frustrating service.
+But having to solve them every single time, especially on brand new sites, can be incredibly infuriating.
 
 ## Why it only works on the surface level
 
-CAPTCHAs does not even work (when looking at every possible ways to bypass CAPTCHAs).
+CAPTCHAs do not even work (when looking at every possible ways to bypass CAPTCHAs).
 Okay, that's a bold statement, certainly they "do work" but with a catch.
 
-Sure, CAPTCHAs aren't perfect.
+CAPTCHAs aren't perfect.
 A determined attacker with enough resources could probably bypass them eventually.
 
-Take this simple multiplayer [game](https://agar.io).
-They added CAPTCHAs to fight the growing problem of bots trying ruin the game for everyone.
-
-Every now and then, you get hit with a CAPTCHA test just to spawn into the game.
+For example, take this simple multiplayer [game](https://agar.io).
+They added CAPTCHAs to fight the growing problem of bots trying ruin the game for everyone. And every now and then, you get hit with a CAPTCHA test just to spawn into the game.
 Frustrating, right?
 
 Moneyclip's— err, Miniclip's goal was to prevent bots from overwhelming the game server.
 However, that doesn't seem to be working, as there are still bots present in the game.
 
 Anyone can simply reuse a valid CAPTCHA token or response to spawn bots and start causing disruptions.
-People just keeps finding ways to bypass CAPTCHAs.
+People just keep on finding ways to bypass CAPTCHAs.
 
 **Granted, CAPTCHAs stop the super lazy cheaters from using bots, but the competent ones can still figure them out.**
 Bummer, right?
@@ -82,7 +80,7 @@ Definitely a skill issue if you can't.
 It has to be.
 
 Just why annoy your users?
-I meant the legit users.
+And I mean the legit users.
 
 Google, Facebook, Twitter, PopcornHub were able to do it without CAPTCHAs?
 But not on certain websites that's poorly maintained.
@@ -152,13 +150,26 @@ Yet, if they implement CAPTCHA on their server, their automation tool to send us
 It is quite funny to see phishing sites gets blasted with random username and passwords.
 They deserve it well.
 
+## CAPTCHA hell for normies
+
+CAPTCHAs are not only annoying for the internet hermits out there, but are also hella annoying for those who are trying to browse the internet casually.
+
+Imagine trying to log in to your favorite site after a long day at work, only to be greeted with a "Click on the traffic lights" CAPTCHA. Who wouldn't get annoyed at that?
+
+Expending effort to finish the CAPTCHA, you are then notified that you need to verify again, making you want to scream.
+
+Eventually, you succumb to this endless loop of CAPTHCAs that makes you want to pull your hair off.
+
+Of course, the scenario above is highly exaggerated, but this is what countless casual internet users feel everytime when they meet with these CAPTCHAs that are  more forgiving when you are a bot than human.
+
+
 ## This writeup is definitely not written by a bot
 
-Okay, so there are good and there bad for CAPTCHAs.
+Okay, so there is good and bad when we use CAPTCHAs.
 But we still hate them.
-Since there are now more bots than humans, CAPTCHA is a requirement.
+And since there are now more bots than humans, CAPTCHA is inevitably a requirement.
 
-*So, are CAPTCHAs worth it?*
+*But that begs the question, are CAPTCHAs worth it?*
 
 Eh, it really depends on which point of view we are looking at.
 If majority uses CAPTCHAs to deter bots, spammers, and bruteforce attacks then they are worth it as the owner of a service.
