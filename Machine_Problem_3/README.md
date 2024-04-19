@@ -16,10 +16,10 @@ Your deliverables are:
 
 ---
 
-The said zipfile is already extracted at `./source/` directory.
+The said zipfile is already extracted at [source](./source/) directory.
 
 DO NOT MODIFY THE ORIGINAL SOURCE.
 Make a new directory instead.
 
 > [!NOTE]
-> If you are not on NixOS, simply follow the instruction in the `./writeup/README.txt` file.
+> If you are not on NixOS, simply follow this [instruction](./writeup/README.txt)
