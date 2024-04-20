@@ -128,6 +128,8 @@ Notice that the flow of this code redirects to the homepage when a session is pr
 On the `GET` method request, the SQL code is vulnerable.
 However, we won't be focusing on that.
 
+### SQL Injection Authentication Bypass (aCVE-2024-1)
+
 The simplest part is the `POST` request because even if we don't have full access to the source code, we can still conduct basic checks to determine if the server is vulnerable or not.
 
 This part of the code can be exploited to bypass the login and allows us to use the first user index, usually admin or root in others.
@@ -182,7 +184,12 @@ And logged in as `alice`.
 
 Unfortunately, the database only contains `alice` as the user (not even root or admin) and an unhashed password (which is very unsecure!!!).
 
-Let's just call this **aCVE-2024-1** as some sort of a tracker for this machine problem (of course this CVE doesn't exist irl).
+Let's just call this **SQL Injection Authentication Bypass (aCVE-2024-1)** as some sort of a tracker for this machine problem (of course this CVE doesn't exist irl, a joke btw).
+
+To explain how this works, the original SQL statement looks for a `username` if it exists then proceeds to verify the `password`.
+But since we have modified the `WHERE` clause, it wouldn't matter if a username does not exist since it would always evaluate to `TRUE`.
+
+This would mean that the SQL parameter would be similar to `SELECT id FROM users;` then only fetch the first result.
 
 
 ---
