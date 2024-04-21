@@ -17,6 +17,11 @@ Authors:
 
 ## TL;DR
 
+> [!NOTE]
+>
+> All of the CVEs listed here are hypothetical!
+> They do not represent real world CVEs.
+
 Here are the vulnerabilities and to exploit them:
 
 ### SQL Injection
@@ -67,14 +72,14 @@ The last one is not needed.
 The `sessions` table has data containing
 
 ```
-id user token
+id	user	token
 7	1	e96713ffbc66b273d48f5bbbf56e297686d55a3c488c55c94d233a32cac8be65
 ```
 
 Similar to the `users` table
 
 ```
-id username password
+id	username	password
 1	alice	12345678
 ```
 
@@ -162,7 +167,7 @@ Notice that the flow of this code redirects to the homepage when a session is pr
 On the `GET` method request, the SQL code is vulnerable.
 However, we won't be focusing on that.
 
-### SQL Injection Authentication Bypass (aCVE-2024-1)
+### SQL Injection Authentication Bypass (aCVE-2024-0001)
 
 The simplest part is the `POST` request because even if we don't have full access to the source code, we can still conduct basic checks to determine if the server is vulnerable or not.
 
@@ -218,7 +223,7 @@ And logged in as `alice`.
 
 Unfortunately, the database only contains `alice` as the user (not even root or admin) and an unhashed password (which is very unsecure!!!).
 
-Let's just call this **SQL Injection Authentication Bypass (aCVE-2024-1)** as some sort of a tracker for this machine problem (of course this CVE doesn't exist irl, a joke btw).
+Let's just call this **SQL Injection Authentication Bypass (aCVE-2024-0001)** as some sort of a tracker for this machine problem (of course this CVE doesn't exist irl, a joke btw).
 
 To explain how this works, the original SQL statement looks for a `username` if it exists then proceeds to verify the `password`.
 But since we have modified the `WHERE` clause, it wouldn't matter if a username does not exist since it would always evaluate to `TRUE`.
@@ -259,7 +264,7 @@ In our case, when logging in as another user (existent or non-existent), it stil
 We can try retrieving all of the session tokens or username and passwords by dumping the database.
 See the next aCVE.
 
-### Stored XSS and SQL Injection Vulnerability by Execution of Arbitrary SQL Queries and JavaScript (aCVE-2024-2)
+### Stored XSS and SQL Injection Vulnerability by Execution of Arbitrary SQL Queries and JavaScript (aCVE-2024-0002)
 
 Neat!
 We are now greeted with yet another ugly HTML home page.
@@ -361,7 +366,7 @@ And we're able to grab all the user sessions!
 <li>1:e96713ffbc66b273d48f5bbbf56e297686d55a3c488c55c94d233a32cac8be65<br>1:2015e754b07fb37c28ee636725d04b8743f91333ac927fe9c0eeca512246fc9c<br>159:8e25b871df997f1f1b219b96a30bda9505a60168aeae51e7d2a011c12bdba184</li>
 ```
 
-Let's call this Vulnerability as **Stored XSS and SQL Injection Vulnerability by Execution of Arbitrary SQL Queries and JavaScript (aCVE-2024-2)**.
+Let's call this Vulnerability as **Stored XSS and SQL Injection Vulnerability by Execution of Arbitrary SQL Queries and JavaScript (aCVE-2024-0002)**.
 
 To explain how this works, the original SQL query takes a valid input message and passes it to the sqlite3 handler.
 
@@ -388,7 +393,7 @@ This can be done by simply changing the user ID to another user (doesn't matter 
 
 This will get inserted to the database on user 69.
 
-### Credential Bypass via SQL Injection on Session Token (aCVE-2024-3)
+### Credential Bypass via SQL Injection on Session Token (aCVE-2024-0003)
 
 Okay, bypassing the login page and then able to post a message on another user requires a bit more of an effort.
 *Why not just bypass the session token instead?*
@@ -462,7 +467,7 @@ curl -L 'http://0.0.0.0:5000/home' -H "Cookie: session_token=' UNION SELECT 1 as
 
 And we're in.
 
-This vulnerability is dubbed as **Credential Bypass via SQL Injection on Session Token (aCVE-2024-3)**.
+This vulnerability is dubbed as **Credential Bypass via SQL Injection on Session Token (aCVE-2024-0003)**.
 
 As to how this works, a legitimate SQL query appears as
 
