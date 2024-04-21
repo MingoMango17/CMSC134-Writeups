@@ -46,32 +46,36 @@ The instructions to install and run the server is already provided in the [write
 Please read and follow the instructions to setup the Python Flask web server.
 
 Once the server is up and running, visit [http://0.0.0.0:5000](http://0.0.0.0:5000) and be greeted with a remnant of the 90s internet web page login.
-*It's ugly because there's no CSS.*
+*It's ugly because there's no CSS, as intended.*
 
-If using a web browser is annoying, use `curl`.
+The database contains four tables: `posts`, `sessions`, `users`, and `sqlite_sequence`.
+The last one is not needed.
 
-```bash
-curl -L 'http://0.0.0.0:5000'
+- `posts` contains user posts
+  - `id` as primary key
+  - `message` as text
+  - `user` as integer
+- `sessions` contains session tokens of an authenticated user
+  - `id` as primary key
+  - `user` as integer
+  - `token` as text
+- `users` contains username and password
+  - `id` as primary key
+  - `username` as text
+  - `password` as text
+
+The `sessions` table has data containing
+
+```
+id user token
+7	1	e96713ffbc66b273d48f5bbbf56e297686d55a3c488c55c94d233a32cac8be65
 ```
 
-And return an HTML login page.
+Similar to the `users` table
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Login</title>
-  </head>
-  <body>
-    <form method="post" action="/login">
-      <label for="username">Username</label>
-      <input name="username" type="text" />
-      <label for="password">Password</label>
-      <input name="password" type="password" />
-      <input type="submit" value="Login" />
-    </form>
-  </body>
-</html>
+```
+id username password
+1	alice	12345678
 ```
 
 Then that's it.
@@ -82,6 +86,34 @@ The mission of this machine problem?
 It is to **find vulnerabilities** as much as possible and **exploit** them.
 
 That is what we will be doing today!
+
+> [!NOTE]
+> 
+> If using a web browser is annoying, use `curl`.
+> 
+> ```bash
+> curl -L 'http://0.0.0.0:5000'
+> ```
+> 
+> And return an HTML login page.
+> 
+> ```html
+> <!DOCTYPE html>
+> <html>
+>   <head>
+>     <title>Login</title>
+>   </head>
+>   <body>
+>     <form method="post" action="/login">
+>       <label for="username">Username</label>
+>       <input name="username" type="text" />
+>       <label for="password">Password</label>
+>       <input name="password" type="password" />
+>       <input type="submit" value="Login" />
+>     </form>
+>   </body>
+> </html>
+> ```
 
 ## Exploitation
 
