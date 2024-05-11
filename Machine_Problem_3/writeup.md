@@ -23,7 +23,7 @@ Authors:
 > They do not represent real world CVEs.
 
 
-List of vulnerabilities discovered:
+**List of vulnerabilities discovered:**
 
 > [!IMPORTANT]
 > **SQL Injection Authentication Bypass (aCVE-2024-0001)**
@@ -88,6 +88,18 @@ List of vulnerabilities discovered:
 ></body>
 ></html>
 > ```
+**SUMMARY**
+
+The web server is vulnerable mostly to SQL injection attacks due to the incorrect implementation of SQL queries.
+Which allows major vulnerabilities to be exploited.
+
+However, this can easily be fixed by implementing input sanitization to prevent such attack.
+
+Both CSRF and XSS attacks are also vulnerabilities of the web server however it is not as critical to SQL injection attacks.
+
+All fixes to mitigating the vulnerabilities can be found in [the bottom](#Patching_the_vulnerabilities) portion of this writeup.
+
+
 ## Introduction
 
 Another month, another machine problem.
@@ -169,7 +181,22 @@ That is what we will be doing today!
 ## Exploitation
 
 Since we have full access to the server already, there's no need to perform reconnaissance. 
-Thus we will head straight to exploitation.
+But for the sake of knowing the endpoints of the server without needing to check the source code, we can run `flask routes` and this will show us the endponts
+
+```
+Endpoint  Methods    Rule                   
+--------  ---------  -----------------------
+home      GET        /home                  
+home      GET        /                      
+login     GET, POST  /login                 
+logout    GET        /logout                
+posts     POST       /posts                 
+static    GET        /static/<path:filename>
+```
+
+I am guessing there are potential SQL injection, XSS, and CSRF attacks on the `login`, `logout`, and `posts` endpoints.
+
+**Thus, let's head right into the explotation phase!**
 
 First up is the login page.
 There is no need to **bruteforce** the login page as its vulnerability is obvious.
