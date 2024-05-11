@@ -19,6 +19,7 @@
         pkgs.mkShell {
           packages = with pkgs; [
             python312
+            sqlitebrowser
           ];
           shellHook = ''
             echo "Setup complete: CMSC 134 Machine Problem 3"

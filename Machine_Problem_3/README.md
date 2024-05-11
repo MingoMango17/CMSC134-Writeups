@@ -19,7 +19,7 @@ Your deliverables are:
 The said zipfile is already extracted at [source](./source/) directory.
 
 DO NOT MODIFY THE ORIGINAL SOURCE.
-Make a new directory instead.
+Use [this](./writeup) directory to make changes.
 
 > [!NOTE]
 > If you are not on NixOS, simply follow this [instruction](./writeup/README.txt)
