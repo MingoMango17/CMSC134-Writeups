@@ -5,7 +5,10 @@
   </head>
   <body>
     <h2>Welcome, {{username}}!</h2>
-    <a href="/logout">Logout</a>
+    <form action="/logout" method="post">
+      <button type="submit">Logout</button>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  </form>
     <h3>Posts</h3>
     <form method="post" action="/posts">
       <input type="hidden" name="csrf_token" value="{{ csrf_token }}">

@@ -89,7 +89,7 @@ def posts():
     return redirect("/login")
 
 
-@app.route("/logout", methods=["GET"])
+@app.route("/logout", methods=["POST"])
 def logout():
     cur = con.cursor()
     if request.cookies.get("session_token") and input_validation(["session_token"]):
@@ -98,6 +98,9 @@ def logout():
                           (request.cookies.get("session_token"),))
         user = res.fetchone()
         if user:
+            if request.form.get('csrf_token') != session.pop('csrf_token', None):
+                abort(403)
+
             cur.execute("DELETE FROM sessions WHERE user = ?", (str(user[0])))
             con.commit()
 
