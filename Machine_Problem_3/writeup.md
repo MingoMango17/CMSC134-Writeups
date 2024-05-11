@@ -714,7 +714,23 @@ So what can we do?
 
 Well, still remember the input parametization? It solves the problem of the post message by itself, so there is no worry about that.
 
-Another problem in the code is the CRSF attack using another malicious website.
+XSS attacks, on the other hand, is still a problem, as it can be passed through the input parametization without any issues.
+
+So we implement a tag cleaner for HTML tags using a function `clean` from the library  `bleach`.
+
+>```
+>from bleach import clean
+>```
+
+We simply using the `clean` function on the input message before running the `INSERT` SQL:
+
+>```
+>sanitized_input = clean(request.form["message"], tags=[], attributes={})
+>            cur.execute("INSERT INTO posts (message, user) VALUES (?,?);",
+>                        (sanitized_input, str(user[0])))
+>```
+
+So we fixed the login and post problems within the website. But another problem in the code is the CRSF attack using another malicious website.
 
 We cannot use input parametization nor input cleaning to patch this vulnerability. So we use the good 'ol CRSF token that is passed together when posting a message.
 

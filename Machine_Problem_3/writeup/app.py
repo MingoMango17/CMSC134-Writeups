@@ -1,10 +1,8 @@
 import secrets
 import sqlite3
 import hashlib
-import re
-
+from bleach import clean
 from flask import Flask, request, render_template, redirect, session, abort
-from markupsafe import escape
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -79,12 +77,12 @@ def posts():
                           (request.cookies.get("session_token"),))
         user = res.fetchone()
         if user:
-            # Validate CSRF token
             if request.form.get('csrf_token') != session.pop('csrf_token', None):
                 abort(403)
-            
+
+            sanitized_input = clean(request.form["message"], tags=[], attributes={})
             cur.execute("INSERT INTO posts (message, user) VALUES (?,?);",
-                        (request.form["message"], str(user[0])))
+                        (sanitized_input, str(user[0])))
             con.commit()
             return redirect("/home")
 
